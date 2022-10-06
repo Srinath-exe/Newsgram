@@ -1,5 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:news_app/HomeScreen/HomeScreen.dart';
 import 'package:news_app/constants/constants.dart';
+import 'package:news_app/controllers/MovieController.dart';
+import 'package:news_app/controllers/NewsController.dart';
+import 'package:news_app/movies/MovieScreen.dart';
+import 'package:water_drop_nav_bar/water_drop_nav_bar.dart';
+
+import '../news/NewsScreen.dart';
 
 class MainPage extends StatefulWidget {
   int? index;
@@ -10,30 +18,19 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  final NewsController newsController = Get.put(NewsController());
+  final MovieController movieController = Get.put(MovieController());
   late int currentindex;
-  // final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey<SideMenuState>();
+
   late List pages;
   @override
   void initState() {
     currentindex = widget.index!;
     super.initState();
     pages = [
-      CircleAvatar(),
-      CircleAvatar(),
-      CircleAvatar(), CircleAvatar()
-      // HomeScreen(
-      //   onTap: () {
-      //     final _state = _sideMenuKey.currentState;
-      //     if (_state!.isOpened) {
-      //       _state.closeSideMenu();
-      //     } else {
-      //       _state.openSideMenu();
-      //     } // open side menu
-      //   },
-      // ),
-      // const SearchScreen(),
-      // const NewsScreen(),
-      // const ProfileScreen(),
+      const HomeScreen(),
+      const NewsScreen(),
+      const MovieScreen(),
     ];
   }
 
@@ -47,54 +44,36 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        child: Stack(
-          children: [
-            Container(
-              height: Config().deviceHeight(context),
-              child: pages[currentindex],
-            ),
-            Positioned(
-              bottom: 0,
-              child: Container(
-                height: 80,
-                width: Config().deviceWidth(context),
-                color: Colors.transparent,
-                child: Padding(
-                  padding: const EdgeInsets.all(0.0),
-                  child: Material(
-                    borderRadius: const BorderRadius.all(Radius.circular(30)),
-                    color: Colors.transparent,
-                    clipBehavior: Clip.hardEdge,
-                    child: BottomNavigationBar(
-                      currentIndex: currentindex,
-                      type: BottomNavigationBarType.fixed,
-                      selectedItemColor: Colors.green,
-                      unselectedItemColor: Colors.grey.withOpacity(0.5),
-                      showSelectedLabels: false,
-                      showUnselectedLabels: false,
-                      elevation: 0,
-                      onTap: onTap,
-                      items: [
-                        navItem(
-                            currentIndex: currentindex, index: 0, name: "home"),
-                        navItem(
-                            currentIndex: currentindex,
-                            index: 1,
-                            name: "search"),
-                        navItem(
-                            currentIndex: currentindex, index: 2, name: "news"),
-                        navItem(
-                            currentIndex: currentindex,
-                            index: 3,
-                            name: "profile"),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
+        height: Config().deviceHeight(context),
+        child: pages[currentindex],
+      ),
+      bottomNavigationBar: WaterDropNavBar(
+        backgroundColor: black,
+        bottomPadding: 20,
+        waterDropColor: secondary,
+        onItemSelected: (int index) {
+          setState(() {
+            currentindex = index;
+          });
+        },
+        selectedIndex: currentindex,
+        barItems: <BarItem>[
+          BarItem(
+            filledIcon: Icons.dashboard_rounded,
+            outlinedIcon: Icons.dashboard_outlined,
+          ),
+          BarItem(
+              filledIcon: Icons.article_rounded,
+              outlinedIcon: Icons.newspaper_rounded),
+          BarItem(
+            filledIcon: Icons.movie_rounded,
+            outlinedIcon: Icons.movie_outlined,
+          ),
+          // BarItem(
+          //   filledIcon: Icons.folder_rounded,
+          //   outlinedIcon: Icons.folder_outlined,
+          // ),
+        ],
       ),
     );
   }
@@ -114,7 +93,7 @@ BottomNavigationBarItem navItem({
         children: [
           Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               // SvgIcon(

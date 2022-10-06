@@ -1,6 +1,10 @@
+import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:news_app/Models/NewsModel.dart';
+import 'package:news_app/constants/constants.dart';
+import 'package:timeago/timeago.dart' as timeago;
+import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 class NewsArticleCard extends StatefulWidget {
   NewsArticleModel news;
@@ -13,29 +17,64 @@ class NewsArticleCard extends StatefulWidget {
 class _NewsArticleCardState extends State<NewsArticleCard> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        clipBehavior: Clip.hardEdge,
-        decoration: BoxDecoration(
-            color: Colors.amber, borderRadius: BorderRadius.circular(20)),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              Container(
-                  clipBehavior: Clip.hardEdge,
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                  child: Image.network(widget.news.multimedia[0].url)),
-              Column(
-                children: [
-                  Text(
-                    widget.news.title,
-                  )
-                ],
-              )
-            ],
+    return ZoomTapAnimation(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Container(
+          width: Config().deviceWidth(context),
+          height: Config().deviceHeight(context) * 0.3,
+          clipBehavior: Clip.hardEdge,
+          decoration: BoxDecoration(
+              color: white, borderRadius: BorderRadius.circular(20)),
+          child: Padding(
+            padding: const EdgeInsets.all(2.0),
+            child: Stack(
+              children: [
+                Column(
+                  children: [
+                    Container(
+                        clipBehavior: Clip.hardEdge,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Image.network(
+                          widget.news.multimedia[0].url,
+                          fit: BoxFit.cover,
+                          width: Config().deviceWidth(context) * 1,
+                          height: Config().deviceHeight(context) * 0.2,
+                        )),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            widget.news.title,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                                color: black),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                Positioned(
+                    right: 10,
+                    top: 10,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text(
+                        timeago.format(
+                          widget.news.createdDate,
+                        ),
+                        style: TextStyle(color: black, fontSize: 12),
+                      ),
+                    ).frosted(
+                        frostColor: white,
+                        frostOpacity: 0.2,
+                        borderRadius: BorderRadius.circular(10))),
+              ],
+            ),
           ),
         ),
       ),

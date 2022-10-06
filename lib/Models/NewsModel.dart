@@ -32,7 +32,7 @@ class NewsModel {
         lastUpdated: DateTime.parse(json["last_updated"]),
         numResults: json["num_results"],
         newsArticles: List<NewsArticleModel>.from(
-            json["newsArticles"].map((x) => NewsArticleModel.fromJson(x))),
+            json["results"].map((x) => NewsArticleModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -91,7 +91,7 @@ class NewsArticleModel {
   factory NewsArticleModel.fromJson(Map<String, dynamic> json) =>
       NewsArticleModel(
         section: json["section"],
-        subsection: json["subsection"],
+        subsection: json["subsection"] ?? "",
         title: json["title"],
         resultAbstract: json["abstract"],
         url: json["url"],

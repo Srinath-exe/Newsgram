@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:news_app/MainScreen/mainPage.dart';
+import 'package:news_app/movies/MovieScreen.dart';
 import 'package:news_app/yeeppi.dart';
 
 import 'HomeScreen/HomeScreen.dart';
@@ -31,7 +32,9 @@ class MyApp extends StatelessWidget {
           },
         ),
       ),
-      home: OnBoardingScreen(),
+      home: MainPage(
+        index: 0,
+      ),
     );
   }
 }

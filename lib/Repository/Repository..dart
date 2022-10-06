@@ -15,7 +15,6 @@ class API {
   };
 
   static Future<Response> get({
-    required BuildContext context,
     required String url,
     bool? logs,
     Map<String, String>? headers1,

@@ -4,6 +4,34 @@
 
 import 'dart:convert';
 
+var defa = MovieModel.fromJson(
+  {
+    "display_title": "Captain Marvel",
+    "mpaa_rating": "PG-13",
+    "critics_pick": 0,
+    "byline": "A.O. SCOTT",
+    "headline": "‘Captain Marvel’ Review: Brie Larson Takes a Trip to the ’90s",
+    "summary_short":
+        "The newest member of the Marvel Cinematic Universe goes on a nostalgia trip in the company of Samuel L. Jackson and Annette Bening.",
+    "publication_date": "2019-03-05",
+    "opening_date": "2019-03-08",
+    "date_updated": "2019-04-05 16:44:01",
+    "link": {
+      "type": "article",
+      "url":
+          "https://www.nytimes.com/2019/03/05/movies/captain-marvel-review.html",
+      "suggested_link_text": "Read the New York Times Review of Captain Marvel"
+    },
+    "multimedia": {
+      "type": "mediumThreeByTwo210",
+      "src":
+          "https://static01.nyt.com/images/2019/03/05/arts/05captainmarvel/05captainmarvel-mediumThreeByTwo210-v2.jpg",
+      "height": 140,
+      "width": 210
+    }
+  },
+);
+
 ReviewsModel reviewsModelFromJson(String str) =>
     ReviewsModel.fromJson(json.decode(str));
 
@@ -15,14 +43,14 @@ class ReviewsModel {
     required this.copyright,
     required this.hasMore,
     required this.numResults,
-    required this.results,
+    this.results,
   });
 
   String status;
   String copyright;
   bool hasMore;
   int numResults;
-  List<MovieModel> results;
+  List<MovieModel>? results = [defa];
 
   factory ReviewsModel.fromJson(Map<String, dynamic> json) => ReviewsModel(
         status: json["status"],
@@ -38,7 +66,7 @@ class ReviewsModel {
         "copyright": copyright,
         "has_more": hasMore,
         "num_results": numResults,
-        "results": List<dynamic>.from(results.map((x) => x.toJson())),
+        // "results": List<dynamic>.from(results.map((x) => x.toJson())),
       };
 }
 
@@ -54,7 +82,7 @@ class MovieModel {
     required this.openingDate,
     required this.dateUpdated,
     required this.link,
-    required this.multimedia,
+    this.multimedia,
   });
 
   String displayTitle;
@@ -67,7 +95,8 @@ class MovieModel {
   String openingDate;
   String dateUpdated;
   Link link;
-  Multimedia multimedia;
+  Multimedia? multimedia =
+      Multimedia(type: "wtf", src: "", height: 140, width: 400);
 
   factory MovieModel.fromJson(Map<String, dynamic> json) => MovieModel(
         displayTitle: json["display_title"],
@@ -94,25 +123,25 @@ class MovieModel {
         "opening_date": openingDate,
         "date_updated": dateUpdated,
         "link": link.toJson(),
-        "multimedia": multimedia.toJson(),
+        // "multimedia": multimedia.toJson(),
       };
 }
 
 class Link {
   Link({
-    required this.type,
+    this.type = "",
     required this.url,
-    required this.suggestedLinkText,
+    this.suggestedLinkText = "",
   });
 
-  String type;
+  String? type;
   String url;
-  String suggestedLinkText;
+  String? suggestedLinkText;
 
   factory Link.fromJson(Map<String, dynamic> json) => Link(
-        type: json["type"],
+        // type: json["type"],
         url: json["url"],
-        suggestedLinkText: json["suggested_link_text"],
+        // suggestedLinkText: json["suggested_link_text"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -124,13 +153,13 @@ class Link {
 
 class Multimedia {
   Multimedia({
-    required this.type,
+    this.type = "ok",
     required this.src,
     required this.height,
     required this.width,
   });
 
-  String type;
+  String? type;
   String src;
   int height;
   int width;

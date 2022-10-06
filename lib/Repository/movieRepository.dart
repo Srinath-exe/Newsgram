@@ -1,20 +1,47 @@
-// import 'dart:developer';
+import 'dart:convert';
+import 'dart:developer';
 
-// import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:news_app/Models/ReviewsModel.dart';
+import 'package:news_app/Repository/Repository..dart';
+import 'package:news_app/constants/constants.dart';
 
-// import '../../repository/repository.dart';
-// import '../models/blog_model.dart';
+class MovieRepository {
+  Future<List<MovieModel>> getMovie({String type = "all", int page = 0}) async {
+    final response = await API.get(
+        url:
+            'https://api.nytimes.com/svc/movies/v2/reviews/${type}.json?offset=${page}&api-key=${APIKEY}');
 
-// class BlogRepository {
-//   Future<List<BlogModel>> getMovies(
-//       {required String tag, required BuildContext context}) async {
-//     final response = await API.get(context: context, url: 'blog/tag/$tag');
-//     log(response.body);
-//     if (response.statusCode == 200 || response.statusCode == 201) {
-//       final blogList = blogModelFromJson(response.body);
-//       return blogList;
-//     } else {
-//       return [];
-//     }
-//   }
-// }
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      var movieList = reviewsModelFromJson(response.body);
+
+      return movieList.results!;
+    } else {
+      return [];
+    }
+  }
+
+  Future<List<MovieModel>> searchMovie({required String search}) async {
+    final response = await API.get(
+        url:
+            'https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=${search}&api-key=${APIKEY}');
+    log(response.body);
+    var res = json.decode(response.body);
+    if (res["results"] == null) {
+      return [];
+    }
+    List<MovieModel> lis = [];
+    List.generate(
+        res["num_results"],
+        (index) => {
+              if (res["results"][index]["multimedia"] != null)
+                {lis.add(MovieModel.fromJson(res["results"][index]))}
+            });
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return lis;
+    } else {
+      return [];
+    }
+  }
+}

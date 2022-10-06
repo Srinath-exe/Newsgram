@@ -14,7 +14,7 @@ class Config {
 }
 
 //Colors
-Color secondary = const Color(0xff000000);
+Color secondary = Colors.amber.shade100;
 Color accent = const Color(0xffA8FF35);
 
 Color grey = const Color(0xff171717);
