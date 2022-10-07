@@ -1,8 +1,17 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_slider/carousel_slider.dart';
 
 import 'package:flutter_carousel_slider/carousel_slider_indicators.dart';
 import 'package:flutter_carousel_slider/carousel_slider_transforms.dart';
+import 'package:get/get.dart';
+import 'package:news_app/Models/f.dart';
+import 'package:news_app/story/TopicStory.dart';
+import 'package:news_app/story/model.dart';
+import 'package:news_app/story/tempStory.dart';
+
+import '../controllers/NewsController.dart';
 
 class StoriesPage extends StatefulWidget {
   const StoriesPage({super.key});
@@ -15,24 +24,8 @@ class _StoriesPageState extends State<StoriesPage> {
   bool _isPlaying = false;
 
   late CarouselSliderController _sliderController;
-  final List<Color> colors = [
-    Colors.red,
-    Colors.orange,
-    Colors.yellow,
-    Colors.green,
-    Colors.blue,
-    Colors.indigo,
-    Colors.purple,
-  ];
-  final List<String> letters = [
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
-    "G",
-  ];
+
+  final NewsController controller = Get.find();
   @override
   void initState() {
     _sliderController = CarouselSliderController();
@@ -45,17 +38,23 @@ class _StoriesPageState extends State<StoriesPage> {
         child: CarouselSlider.builder(
       controller: _sliderController,
       slideBuilder: (index) {
-        return Container(
-          alignment: Alignment.center,
-          color: colors[index],
-          child: Text(
-            letters[index],
-            style: const TextStyle(fontSize: 200, color: Colors.white),
-          ),
-        );
+        return Obx(() => TopicStory(
+              newslist: controller.allnews[index],
+              onNext: (next) {
+                setState(() {
+                  if (next) {
+                    _sliderController
+                        .nextPage(const Duration(milliseconds: 200));
+                  } else {
+                    _sliderController
+                        .previousPage(const Duration(milliseconds: 200));
+                  }
+                });
+              },
+            ));
       },
       slideTransform: const CubeTransform(),
-      itemCount: colors.length,
+      itemCount: controller.allnews.length,
       initialPage: 0,
     ));
   }

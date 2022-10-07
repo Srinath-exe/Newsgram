@@ -14,7 +14,7 @@ class NewsRepository {
     final response = await API.get(
         url:
             'https://api.nytimes.com/svc/topstories/v2/${tag}.json?api-key=${APIKEY}');
-    if (response.statusCode == 200 && response.statusCode == 201) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       var res = json.decode(response.body);
       if (res["results"] == null) {
         return [];

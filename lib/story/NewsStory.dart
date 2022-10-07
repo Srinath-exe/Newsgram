@@ -1,10 +1,14 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:news_app/Cards/widgets.dart';
 import 'package:news_app/controllers/NewsController.dart';
 import 'package:news_app/story/StoriesPage.dart';
+import 'package:news_app/story/model.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 import '../constants/constants.dart';
@@ -17,20 +21,26 @@ class NewsStory extends StatefulWidget {
 }
 
 class _NewsStoryState extends State<NewsStory> {
+  final NewsController controller = Get.find();
   @override
   Widget build(BuildContext context) {
     final NewsController controller = Get.find();
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      child: Row(
-        children: [
-          story(imgLink: "assets/images/technology.png", title: "Technology"),
-          story(imgLink: "assets/images/technology.png", title: "Technology"),
-          story(imgLink: "assets/images/technology.png", title: "Technology"),
-          story(imgLink: "assets/images/technology.png", title: "Technology"),
-          story(imgLink: "assets/images/technology.png", title: "Technology")
-        ],
-      ),
+      child: Obx(() => Row(
+            children: List.generate(1, (index) {
+              for (var i = 0; i < controller.allnews.length; i++) {
+                log(controller.allnews[i].length.toString());
+              }
+              // if (controller.allnewsload.value) {
+              //   return CircleAvatar();
+              // }
+              // return story(
+              //     imgLink: imgs(tag: controller.allnews[index][1].section),
+              //     title: capitalize(controller.allnews[index][1].section));
+              return CircleAvatar();
+            }),
+          )),
     );
   }
 

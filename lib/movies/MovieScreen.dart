@@ -4,6 +4,7 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:news_app/Cards/MovieCard.dart';
 import 'package:news_app/constants/constants.dart';
 import 'package:news_app/controllers/MovieController.dart';
+import 'package:news_app/movies/movieSimmerCard.dart';
 import 'package:news_app/movies/searchBar.dart';
 
 import '../Models/f.dart';
@@ -23,7 +24,8 @@ class _SearchScreenState extends State<MovieScreen> {
   TextEditingController searchController = TextEditingController();
   onend() {
     scrol.addListener(() {
-      if (scrol.offset == scrol.position.maxScrollExtent) {
+      if (scrol.offset == scrol.position.maxScrollExtent &&
+          controller.isSearch.value == false) {
         controller.fetchMoreMovies();
       }
     });
@@ -57,17 +59,22 @@ class _SearchScreenState extends State<MovieScreen> {
             ),
             Expanded(
               child: Obx(() => GridView(
-                    controller: scrol,
-                    padding: const EdgeInsets.all(20),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2, childAspectRatio: 0.67),
-                    children: List.generate(
-                        controller.moviesList.length,
-                        (index) => MovieCard(
-                              movie: controller.moviesList[index],
-                            )).toList(),
-                  )),
+                  controller: scrol,
+                  padding: const EdgeInsets.all(20),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, childAspectRatio: 0.67),
+                  children: List.generate(
+                      controller.isSearch.value
+                          ? controller.moviesList.length
+                          : controller.moviesList.length + 4, (index) {
+                    if (index >= controller.moviesList.length &&
+                        controller.isSearch.value == false) {
+                      return MovieShimmerCard();
+                    }
+                    return MovieCard(
+                      movie: controller.moviesList[index],
+                    );
+                  }).toList())),
             ),
           ],
         )));

@@ -25,7 +25,6 @@ class MovieRepository {
     final response = await API.get(
         url:
             'https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=${search}&api-key=${APIKEY}');
-    log(response.body);
     var res = json.decode(response.body);
     if (res["results"] == null) {
       return [];

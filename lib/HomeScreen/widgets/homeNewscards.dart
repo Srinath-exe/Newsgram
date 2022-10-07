@@ -23,30 +23,31 @@ class _HomeNewsCardsState extends State<HomeNewsCards> {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      duration: Duration(milliseconds: 100),
+      duration: const Duration(milliseconds: 100),
       // height: Config().deviceHeight(context) * 0.6,
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Padding(
-              padding: const EdgeInsets.all(0.0),
-              child: Obx(() => CarouselSlider.builder(
-                    itemCount: controller.homeNewsArticles.length,
-                    options: CarouselOptions(
-                        aspectRatio: 3 / 3.2,
-                        clipBehavior: Clip.none,
-                        autoPlay: true,
-                        enableInfiniteScroll: false,
-                        autoPlayInterval: const Duration(seconds: 16),
-                        viewportFraction: 0.94),
-                    itemBuilder: (context, itemIndex, realIndex) {
-                      return HomeNewsCard(
-                          news: controller.homeNewsArticles[itemIndex]);
-                    },
-                  ))),
-        ],
-      ),
+      // width: Config().deviceWidth(context),
+      child: Padding(
+          padding: const EdgeInsets.all(0.0),
+          child: Obx(() => CarouselSlider.builder(
+                itemCount: controller.homeNewsArticles.length,
+                options: CarouselOptions(
+                    aspectRatio: 3 / 3.2,
+                    clipBehavior: Clip.none,
+                    autoPlay: true,
+                    enableInfiniteScroll: false,
+                    autoPlayInterval: const Duration(seconds: 16),
+                    viewportFraction: 0.94),
+                itemBuilder: (context, itemIndex, realIndex) {
+                  if (controller.homeNewsArticles == null) {
+                    return CircleAvatar(
+                      radius: 100,
+                      backgroundColor: black,
+                    );
+                  }
+                  return HomeNewsCard(
+                      news: controller.homeNewsArticles[itemIndex]);
+                },
+              ))),
     );
   }
 }

@@ -23,21 +23,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        platform: TargetPlatform.iOS,
-        primarySwatch: Colors.blue,
-        pageTransitionsTheme: const PageTransitionsTheme(
-          builders: <TargetPlatform, PageTransitionsBuilder>{
-            TargetPlatform.iOS: ZoomPageTransitionsBuilder(),
-            TargetPlatform.android: ZoomPageTransitionsBuilder(),
-          },
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          platform: TargetPlatform.iOS,
+          primarySwatch: Colors.blue,
+          pageTransitionsTheme: const PageTransitionsTheme(
+            builders: <TargetPlatform, PageTransitionsBuilder>{
+              TargetPlatform.iOS: ZoomPageTransitionsBuilder(),
+              TargetPlatform.android: ZoomPageTransitionsBuilder(),
+            },
+          ),
         ),
-      ),
-      home: TopicStory(
-        topic: topicList[0],
-        newslist: [newsArt, newsArt],
-      ),
-    );
+        home: MainPage(
+          index: 1,
+        ));
   }
 }

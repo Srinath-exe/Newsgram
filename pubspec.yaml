@@ -49,6 +49,7 @@ dependencies:
   advstory: ^0.2.1
   story_view: ^0.13.2
   flutter_carousel_slider: ^1.0.9
+  shimmer: ^2.0.0
 
 dev_dependencies:
   flutter_test:

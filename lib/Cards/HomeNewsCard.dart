@@ -30,7 +30,8 @@ class _HomeNewsCardState extends State<HomeNewsCard> {
         padding: const EdgeInsets.all(8.0),
         child: Container(
           clipBehavior: Clip.hardEdge,
-          // height: Config().deviceHeight(context) * 0.5,
+          height: Config().deviceHeight(context) * 0.5,
+          width: Config().deviceWidth(context) * 0.9,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
               color: Colors.black,
