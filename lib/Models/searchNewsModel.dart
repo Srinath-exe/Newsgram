@@ -74,7 +74,7 @@ class SearchNewsArticleList {
   String snippet;
   String leadParagraph;
 
-  List<Multimedia> multimedia;
+  List<SearchNewsMultimedia> multimedia;
   Headline headline;
   String pubDate;
   String newsDesk;
@@ -91,8 +91,8 @@ class SearchNewsArticleList {
         webUrl: json["web_url"],
         snippet: json["snippet"],
         leadParagraph: json["lead_paragraph"],
-        multimedia: List<Multimedia>.from(
-            json["multimedia"].map((x) => Multimedia.fromJson(x))),
+        multimedia: List<SearchNewsMultimedia>.from(
+            json["multimedia"].map((x) => SearchNewsMultimedia.fromJson(x))),
         headline: Headline.fromJson(json["headline"]),
         pubDate: json["pub_date"],
         newsDesk: json["news_desk"],
@@ -159,8 +159,8 @@ class Headline {
       };
 }
 
-class Multimedia {
-  Multimedia({
+class SearchNewsMultimedia {
+  SearchNewsMultimedia({
     required this.rank,
     required this.caption,
     required this.url,
@@ -180,7 +180,8 @@ class Multimedia {
   int width;
   String cropName;
 
-  factory Multimedia.fromJson(Map<String, dynamic> json) => Multimedia(
+  factory SearchNewsMultimedia.fromJson(Map<String, dynamic> json) =>
+      SearchNewsMultimedia(
         rank: json["rank"],
         caption: json["caption"],
         type: json["type"],

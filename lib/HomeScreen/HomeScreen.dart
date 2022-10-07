@@ -1,8 +1,10 @@
+import 'package:advstory/advstory.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:news_app/Cards/HomeNewsCard.dart';
 import 'package:news_app/Cards/NewsArticleCard.dart';
 import 'package:news_app/Cards/SearchNewsArcticleCard.dart';
+import 'package:news_app/story/NewsStory.dart';
 import 'package:news_app/HomeScreen/widgets/homeNewscards.dart';
 import 'package:news_app/Models/NewsModel.dart';
 import 'package:news_app/Repository/NewsRepository.dart';
@@ -31,6 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              NewsStory(),
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Row(

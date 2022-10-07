@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/basic.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:news_app/Cards/widgets.dart';
 import 'package:news_app/Models/NewsModel.dart';
+
 import 'package:news_app/constants/constants.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';

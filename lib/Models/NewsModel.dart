@@ -41,7 +41,8 @@ class NewsModel {
         "section": section,
         "last_updated": lastUpdated.toIso8601String(),
         "num_results": numResults,
-        "newsArticles": List<dynamic>.from(newsArticles.map((x) => x.toJson())),
+        "newsArticles":
+            List<NewsArticleModel>.from(newsArticles.map((x) => x.toJson())),
       };
 }
 
@@ -85,7 +86,7 @@ class NewsArticleModel {
   List<String> orgFacet;
   List<String> perFacet;
   List<String> geoFacet;
-  List<Multimedia> multimedia;
+  List<NewsMultimedia> multimedia;
   String shortUrl;
 
   factory NewsArticleModel.fromJson(Map<String, dynamic> json) =>
@@ -94,10 +95,10 @@ class NewsArticleModel {
         subsection: json["subsection"] ?? "",
         title: json["title"],
         resultAbstract: json["abstract"],
-        url: json["url"],
-        uri: json["uri"],
+        url: json["url"] ?? "",
+        uri: json["uri"] ?? "",
         byline: json["byline"],
-        itemType: json["item_type"],
+        itemType: json["item_type"] ?? "",
         updatedDate: DateTime.parse(json["updated_date"]),
         createdDate: DateTime.parse(json["created_date"]),
         publishedDate: DateTime.parse(json["published_date"]),
@@ -107,8 +108,8 @@ class NewsArticleModel {
         orgFacet: List<String>.from(json["org_facet"].map((x) => x)),
         perFacet: List<String>.from(json["per_facet"].map((x) => x)),
         geoFacet: List<String>.from(json["geo_facet"].map((x) => x)),
-        multimedia: List<Multimedia>.from(
-            json["multimedia"].map((x) => Multimedia.fromJson(x))),
+        multimedia: List<NewsMultimedia>.from(
+            json["multimedia"].map((x) => NewsMultimedia.fromJson(x))),
         shortUrl: json["short_url"],
       );
 
@@ -135,8 +136,8 @@ class NewsArticleModel {
       };
 }
 
-class Multimedia {
-  Multimedia({
+class NewsMultimedia {
+  NewsMultimedia({
     required this.url,
     required this.format,
     required this.height,
@@ -156,15 +157,15 @@ class Multimedia {
   String caption;
   String copyright;
 
-  factory Multimedia.fromJson(Map<String, dynamic> json) => Multimedia(
+  factory NewsMultimedia.fromJson(Map<String, dynamic> json) => NewsMultimedia(
         url: json["url"],
-        format: json["format"],
-        height: json["height"],
-        width: json["width"],
-        type: json["type"],
-        subtype: json["subtype"],
-        caption: json["caption"],
-        copyright: json["copyright"],
+        format: json["format"] ?? "",
+        height: json["height"] ?? "",
+        width: json["width"] ?? "",
+        type: json["type"] ?? "",
+        subtype: json["subtype"] ?? "",
+        caption: json["caption"] ?? "",
+        copyright: json["copyright"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {

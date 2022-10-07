@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:news_app/MainScreen/mainPage.dart';
+import 'package:news_app/Models/f.dart';
 import 'package:news_app/movies/MovieScreen.dart';
+import 'package:news_app/story/TopicStory.dart';
+import 'package:news_app/story/model.dart';
 import 'package:news_app/yeeppi.dart';
 
 import 'HomeScreen/HomeScreen.dart';
@@ -24,7 +27,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         platform: TargetPlatform.iOS,
         primarySwatch: Colors.blue,
-        // fontFamily: 'Saira',
         pageTransitionsTheme: const PageTransitionsTheme(
           builders: <TargetPlatform, PageTransitionsBuilder>{
             TargetPlatform.iOS: ZoomPageTransitionsBuilder(),
@@ -32,8 +34,9 @@ class MyApp extends StatelessWidget {
           },
         ),
       ),
-      home: MainPage(
-        index: 0,
+      home: TopicStory(
+        topic: topicList[0],
+        newslist: [newsArt, newsArt],
       ),
     );
   }
