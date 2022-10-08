@@ -140,8 +140,8 @@ class _HomePostState extends State<HomePost> {
                       fit: BoxFit.cover,
                       width: Config().deviceWidth(context) * 1,
                       placeholder: (context, url) => Lottie.asset(
-                          'assets/lottie/newsload.json',
-                          width: 100),
+                        'assets/lottie/newsload.json',
+                      ),
                     )),
                 SizedBox(
                   height: 8,

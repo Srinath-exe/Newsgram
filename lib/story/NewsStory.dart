@@ -55,7 +55,7 @@ class _NewsStoryState extends State<NewsStory> {
               (index) => Shimmer(
                   loop: 0,
                   period: const Duration(milliseconds: 4000),
-                  gradient: LinearGradient(colors: [secondary, lightgrey]),
+                  gradient: LinearGradient(colors: [grey, lightgrey]),
                   child: const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: CircleAvatar(

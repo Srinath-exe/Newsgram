@@ -56,21 +56,11 @@ class _ShimmerPostState extends State<ShimmerPost> {
                     ),
                   ),
                   Container(
-                      width: Config().deviceWidth(context),
-                      height: Config().deviceHeight(context) * 0.3,
-                      clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(color: secondary),
-                      child: CachedNetworkImage(
-                        imageUrl: "",
-                        fit: BoxFit.cover,
-                        width: Config().deviceWidth(context) * 1,
-                        placeholder: (context, url) => Lottie.asset(
-                            'assets/lottie/newsload.json',
-                            width: 100),
-                        errorWidget: (context, url, error) => Lottie.asset(
-                            'assets/lottie/newsload.json',
-                            width: 100),
-                      )),
+                    width: Config().deviceWidth(context),
+                    height: Config().deviceHeight(context) * 0.3,
+                    clipBehavior: Clip.hardEdge,
+                    decoration: BoxDecoration(color: secondary),
+                  ),
                   SizedBox(
                     height: 8,
                   ),

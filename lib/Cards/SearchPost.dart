@@ -137,8 +137,8 @@ class _SearchPostState extends State<SearchPost> {
                       fit: BoxFit.cover,
                       width: Config().deviceWidth(context) * 1,
                       placeholder: (context, url) => Lottie.asset(
-                          'assets/lottie/newsload.json',
-                          width: 100),
+                        'assets/lottie/newsload.json',
+                      ),
                     )),
                 const SizedBox(
                   height: 8,
