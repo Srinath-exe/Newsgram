@@ -4,6 +4,7 @@ import 'package:news_app/HomeScreen/HomeScreen.dart';
 import 'package:news_app/constants/constants.dart';
 import 'package:news_app/controllers/MovieController.dart';
 import 'package:news_app/controllers/NewsController.dart';
+import 'package:news_app/controllers/SearchNewsController.dart';
 import 'package:news_app/movies/MovieScreen.dart';
 import 'package:water_drop_nav_bar/water_drop_nav_bar.dart';
 
@@ -69,10 +70,6 @@ class _MainPageState extends State<MainPage> {
             filledIcon: Icons.movie_rounded,
             outlinedIcon: Icons.movie_outlined,
           ),
-          // BarItem(
-          //   filledIcon: Icons.folder_rounded,
-          //   outlinedIcon: Icons.folder_outlined,
-          // ),
         ],
       ),
     );

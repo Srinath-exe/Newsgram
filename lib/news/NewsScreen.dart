@@ -3,10 +3,12 @@ import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:news_app/Cards/MovieCard.dart';
 import 'package:news_app/Cards/NewsArticleCard.dart';
+import 'package:news_app/Cards/SearchNewsArcticleCard.dart';
 import 'package:news_app/constants/constants.dart';
 import 'package:news_app/controllers/MovieController.dart';
 import 'package:news_app/controllers/NewsController.dart';
 import 'package:news_app/movies/searchBar.dart';
+import 'package:news_app/news/NewsSimmerCard.dart';
 
 import '../Models/f.dart';
 
@@ -21,20 +23,13 @@ class _SearchScreenState extends State<NewsScreen> {
   final NewsController controller = Get.find();
   late DateTime date;
   DateTime now = DateTime.now();
-  // ScrollController scrol = ScrollController();
+
   TextEditingController searchController = TextEditingController();
-  // onend() {
-  //   scrol.addListener(() {
-  //     if (scrol.offset == scrol.position.maxScrollExtent) {
-  //       controller.fetchMoreMovies();
-  //     }
-  //   });
-  // }
 
   @override
   void initState() {
     date = now;
-    // onend();
+
     super.initState();
   }
 
@@ -53,8 +48,7 @@ class _SearchScreenState extends State<NewsScreen> {
                 CustomSearchBar(
                   controller: searchController,
                   onSubmit: (s) {
-                    print(s);
-                    // controller.searchMovies(query: s);
+                    controller.searchNews(search: s);
                   },
                 ),
                 const SizedBox(
@@ -63,11 +57,34 @@ class _SearchScreenState extends State<NewsScreen> {
                 Obx(() => Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
-                        children: List.generate(
-                            controller.homeNewsArticles.length,
-                            (index) => NewsArticleCard(
-                                  news: controller.homeNewsArticles[index],
-                                )).toList(),
+                        children: controller.isSearch.value
+                            ? List.generate(
+                                controller.searchNewsArticles.length, (index) {
+                                // if (index >=
+                                //     controller.homeNewsArticles.length) {
+                                //   return NewsSimmerCard();
+                                // }
+                                return controller.isSearchLoading.value
+                                    ? NewsSimmerCard()
+                                    : SearchNewsArticleCard(
+                                        news: controller
+                                            .searchNewsArticles[index],
+                                      );
+                              })
+                            : List.generate(
+                                controller.homeNewsArticles.length + 2,
+                                (index) {
+                                if (index >=
+                                    controller.homeNewsArticles.length) {
+                                  return NewsSimmerCard();
+                                }
+                                return controller.isLoading.value
+                                    ? NewsSimmerCard()
+                                    : NewsArticleCard(
+                                        news:
+                                            controller.homeNewsArticles[index],
+                                      );
+                              }).toList(),
                       ),
                     )),
               ],

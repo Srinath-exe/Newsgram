@@ -34,8 +34,6 @@ class MyApp extends StatelessWidget {
             },
           ),
         ),
-        home: MainPage(
-          index: 1,
-        ));
+        home: MainPage());
   }
 }

@@ -185,7 +185,7 @@ class SearchNewsMultimedia {
         rank: json["rank"],
         caption: json["caption"],
         type: json["type"],
-        url: json["url"],
+        url: json["url"] ?? "",
         height: json["height"],
         width: json["width"],
         cropName: json["crop_name"],

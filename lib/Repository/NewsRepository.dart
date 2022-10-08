@@ -44,11 +44,44 @@ class NewsRepository {
     final response = await API.get(
         url:
             'https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${search}&api-key=${APIKEY}');
-    log(response.body);
-    if (response.statusCode == 200 && response.statusCode == 201) {
-      final searchNewsList = searchNewsModelFromJson(response.body);
-      return searchNewsList.searchNewsArticle.searchNewsArticleList;
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      var res = json.decode(response.body);
+      if (res["response"]["docs"] == null) {
+        return [];
+      }
+
+      List<SearchNewsArticleList> lis = [];
+      log("RETURN LENG" + res["response"]["docs"].length.toString());
+      List.generate(
+          res["response"]["docs"].length,
+          (index) => {
+                log("working :  $index"),
+                if (res["response"]["docs"][index]["multimedia"].isNotEmpty &&
+                    res["response"]["docs"][index]["abstract"] != null &&
+                    res["response"]["docs"][index]["pub_date"] != null &&
+                    res["response"]["docs"][index]["headline"]["main"] != null
+                //  &&
+                //   res["response"]["docs"][index]["section_name"] != null &&
+                //   res["response"]["docs"][index]["byline"]["original"] !=
+                //       null &&
+
+                //   res["response"]["docs"][index]["abstract"] != null &&
+                //   res["response"]["docs"][index]["word_count"] != null &&
+
+                )
+                  {
+                    log("added :  $index"),
+                    lis.add(SearchNewsArticleList.fromJson(
+                        res["response"]["docs"][index]))
+                  }
+              });
+
+      return lis;
+      //
+      // return searchNewsList.searchNewsArticle.searchNewsArticleList;
     } else {
+      log("error");
       return [];
     }
   }

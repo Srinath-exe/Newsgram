@@ -3,18 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:news_app/Models/NewsModel.dart';
 import 'package:news_app/constants/constants.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
-class NewsArticleCard extends StatefulWidget {
-  NewsArticleModel news;
-  NewsArticleCard({super.key, required this.news});
+class NewsSimmerCard extends StatefulWidget {
+  NewsSimmerCard({
+    super.key,
+  });
 
   @override
-  State<NewsArticleCard> createState() => _NewsArticleCardState();
+  State<NewsSimmerCard> createState() => _NewsSimmerCardState();
 }
 
-class _NewsArticleCardState extends State<NewsArticleCard> {
+class _NewsSimmerCardState extends State<NewsSimmerCard> {
   @override
   Widget build(BuildContext context) {
     return ZoomTapAnimation(
@@ -22,6 +24,7 @@ class _NewsArticleCardState extends State<NewsArticleCard> {
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Container(
           width: Config().deviceWidth(context),
+          // height: Config().deviceHeight(context) * 0.3,
           clipBehavior: Clip.hardEdge,
           decoration: BoxDecoration(
               color: white, borderRadius: BorderRadius.circular(20)),
@@ -29,36 +32,33 @@ class _NewsArticleCardState extends State<NewsArticleCard> {
             padding: const EdgeInsets.all(2.0),
             child: Stack(
               children: [
-                Column(
-                  children: [
-                    Container(
+                Shimmer(
+                  loop: 0,
+                  period: const Duration(milliseconds: 4000),
+                  gradient: LinearGradient(colors: [secondary, white]),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: Config().deviceWidth(context) * 1,
+                        height: Config().deviceHeight(context) * 0.2,
                         clipBehavior: Clip.hardEdge,
                         decoration: BoxDecoration(
+                            color: grey,
                             borderRadius: BorderRadius.circular(20)),
-                        child: Image.network(
-                          widget.news.multimedia[0].url == ""
-                              ? widget.news.multimedia[1].url
-                              : widget.news.multimedia[0].url,
-                          fit: BoxFit.cover,
-                          width: Config().deviceWidth(context) * 1,
-                          height: Config().deviceHeight(context) * 0.2,
-                        )),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8.0, vertical: 16),
-                      child: Column(
-                        children: [
-                          Text(
-                            widget.news.title,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                color: black),
-                          )
-                        ],
                       ),
-                    )
-                  ],
+                      Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0, vertical: 16),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: grey),
+                            width: 100,
+                            height: 20,
+                          ))
+                    ],
+                  ),
                 ),
                 Positioned(
                     right: 10,
@@ -66,9 +66,7 @@ class _NewsArticleCardState extends State<NewsArticleCard> {
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Text(
-                        timeago.format(
-                          widget.news.createdDate,
-                        ),
+                        "",
                         style: TextStyle(color: black, fontSize: 12),
                       ),
                     ).frosted(
