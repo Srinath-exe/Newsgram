@@ -26,7 +26,7 @@ class Custom_SearchStateBar extends State<CustomSearchBar> {
         onSubmit: widget.onSubmit,
         onClose: () {
           setState(() {
-            focus.unfocus();
+            widget.controller.clear();
           });
         },
       ),

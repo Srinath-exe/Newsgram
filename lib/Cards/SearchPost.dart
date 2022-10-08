@@ -20,7 +20,7 @@ class SearchPost extends StatefulWidget {
 
 class _SearchPostState extends State<SearchPost> {
   late CarouselSliderController _sliderController;
-  double verpadding = 20;
+  double verpadding = 15;
 
   @override
   void initState() {

@@ -71,7 +71,8 @@ class _NewsStoryState extends State<NewsStory> {
       required int index,
       required List<NewsArticleModel> list}) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 0.0, left: 8),
+      padding:
+          EdgeInsets.only(bottom: 0.0, right: 8, left: index == 0 ? 12 : 0),
       child: ZoomTapAnimation(
         onTap: () {
           showDialog(

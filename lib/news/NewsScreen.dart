@@ -43,111 +43,114 @@ class _SearchScreenState extends State<NewsScreen> {
     return Scaffold(
         backgroundColor: secondary,
         body: SafeArea(
-            child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 12,
-              ),
-              CustomSearchBar(
-                controller: searchController,
-                onSubmit: (s) {
-                  controller.searchNews(search: s);
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Obx(() => Padding(
-                    padding: const EdgeInsets.all(0.0),
-                    child: Column(
-                        children: controller.isSearch.value
-                            ? !controller.isSearchLoading.value
-                                ? List.generate(
-                                    controller.searchNewsArticles.length,
-                                    (index) {
-                                    log("isSearchLoading " +
-                                        controller.isSearchLoading.value
-                                            .toString());
-                                    return SearchPost(
-                                      news:
-                                          controller.searchNewsArticles[index],
-                                    );
-                                  })
-                                : [const ShimmerPost()]
-                            : [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 10.0, horizontal: 24),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Headlines",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 24,
-                                            color: black),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Obx(
-                                  () => controller.isLoading.value
-                                      ? HomeSimmerCard()
-                                      : HomeNewsCards(),
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 10.0, horizontal: 24),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "World News",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 24,
-                                            color: black),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Obx(
-                                  () => controller.isworld.value
-                                      ? HomeSimmerCard()
-                                      : HomeNewsCards(
-                                          notHome: true,
+            child: Padding(
+          padding: const EdgeInsets.only(top: 0.0, bottom: 4),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 12,
+                ),
+                CustomSearchBar(
+                  controller: searchController,
+                  onSubmit: (s) {
+                    controller.searchNews(search: s);
+                  },
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Obx(() => Padding(
+                      padding: const EdgeInsets.all(0.0),
+                      child: Column(
+                          children: controller.isSearch.value
+                              ? !controller.isSearchLoading.value
+                                  ? List.generate(
+                                      controller.searchNewsArticles.length,
+                                      (index) {
+                                      log("isSearchLoading " +
+                                          controller.isSearchLoading.value
+                                              .toString());
+                                      return SearchPost(
+                                        news: controller
+                                            .searchNewsArticles[index],
+                                      );
+                                    })
+                                  : [const ShimmerPost()]
+                              : [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10.0, horizontal: 24),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Headlines",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 24,
+                                              color: black),
                                         ),
-                                )
-                              ]
-                        //  Obx(
-                        //   () => controller.isLoading.value
-                        //       ? HomeSimmerCard()
-                        //       : const HomeNewsCards(),
-                        // );
-                        //  List.generate(
-                        //     controller.homeNewsArticles.length + 2,
-                        //     (index) {
-                        //     if (index >=
-                        //         controller.homeNewsArticles.length) {
-                        //       return NewsSimmerCard();
-                        //     }
-                        //     return controller.isLoading.value
-                        //         ? NewsSimmerCard()
-                        //         : NewsArticleCard(
-                        //             news:
-                        //                 controller.homeNewsArticles[index],
-                        //           );
-                        //   }).toList(),
-                        ),
-                  )),
-            ],
+                                      ],
+                                    ),
+                                  ),
+                                  Obx(
+                                    () => controller.isLoading.value
+                                        ? HomeSimmerCard()
+                                        : HomeNewsCards(),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10.0, horizontal: 24),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "World News",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 24,
+                                              color: black),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Obx(
+                                    () => controller.isworld.value
+                                        ? HomeSimmerCard()
+                                        : HomeNewsCards(
+                                            notHome: true,
+                                          ),
+                                  )
+                                ]
+                          //  Obx(
+                          //   () => controller.isLoading.value
+                          //       ? HomeSimmerCard()
+                          //       : const HomeNewsCards(),
+                          // );
+                          //  List.generate(
+                          //     controller.homeNewsArticles.length + 2,
+                          //     (index) {
+                          //     if (index >=
+                          //         controller.homeNewsArticles.length) {
+                          //       return NewsSimmerCard();
+                          //     }
+                          //     return controller.isLoading.value
+                          //         ? NewsSimmerCard()
+                          //         : NewsArticleCard(
+                          //             news:
+                          //                 controller.homeNewsArticles[index],
+                          //           );
+                          //   }).toList(),
+                          ),
+                    )),
+              ],
+            ),
           ),
         )));
   }

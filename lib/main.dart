@@ -23,9 +23,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
+        title: 'News App',
         theme: ThemeData(
           platform: TargetPlatform.iOS,
+          fontFamily: 'Montserrat',
           primarySwatch: Colors.blue,
           pageTransitionsTheme: const PageTransitionsTheme(
             builders: <TargetPlatform, PageTransitionsBuilder>{

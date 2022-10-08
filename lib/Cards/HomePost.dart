@@ -24,7 +24,7 @@ class HomePost extends StatefulWidget {
 
 class _HomePostState extends State<HomePost> {
   late CarouselSliderController _sliderController;
-  double verpadding = 20;
+  double verpadding = 15;
 
   @override
   void initState() {

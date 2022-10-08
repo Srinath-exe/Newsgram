@@ -35,24 +35,24 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(12.0),
+      padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 0),
       child: Material(
-        elevation: 2,
+        elevation: 1,
         color: white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
         child: Container(
           constraints: const BoxConstraints(minWidth: 100, maxWidth: 600),
-          width: MediaQuery.of(context).size.width * 0.86,
+          width: MediaQuery.of(context).size.width * 0.9,
           alignment: Alignment.center,
           child: Row(
             children: [
               CircleAvatar(
-                backgroundColor: Colors.grey.withOpacity(0.5),
+                backgroundColor: black,
                 radius: 28,
                 child: Icon(
                   Icons.search_rounded,
                   size: 30,
-                  color: black,
+                  color: white,
                 ),
               ),
               Expanded(
@@ -65,25 +65,32 @@ class _CustomTextFieldState extends State<CustomTextField> {
                     controller: widget.controller,
                     textAlign: TextAlign.left,
                     enabled: true,
-                    cursorColor: accent,
-                    keyboardType: widget.isPassword!
-                        ? TextInputType.visiblePassword
-                        : null,
+                    cursorHeight: 26,
+                    cursorColor: black,
+                    textInputAction: TextInputAction.search,
+                    keyboardType: TextInputType.name,
                     style: TextStyle(fontSize: 16, color: black),
                     obscureText: _passwordVisible,
                     decoration: InputDecoration(
                       suffixIcon: IconButton(
+                          splashRadius: 10,
                           onPressed: () {
-                            widget.onClose;
+                            // widget.onClose;
+                            setState(() {
+                              widget.controller.clear();
+                              FocusManager.instance.primaryFocus?.unfocus();
+                            });
                           },
-                          icon: Icon(Icons.close_rounded)),
+                          icon: Icon(
+                            Icons.close_rounded,
+                            color: black,
+                          )),
                       suffixIconConstraints: BoxConstraints(minWidth: 60),
                       border: InputBorder.none,
                       contentPadding:
                           EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                       hintText: widget.name,
-                      hintStyle:
-                          TextStyle(color: Colors.grey.shade600, fontSize: 16),
+                      hintStyle: TextStyle(color: grey, fontSize: 16),
                     ),
                   ),
                 ),

@@ -43,41 +43,45 @@ class _SearchScreenState extends State<MovieScreen> {
     return Scaffold(
         backgroundColor: secondary,
         body: SafeArea(
-            child: Column(
-          children: [
-            const SizedBox(
-              height: 12,
-            ),
-            CustomSearchBar(
-              controller: searchController,
-              onSubmit: (s) {
-                print(s);
-                controller.searchMovies(query: s);
-              },
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Expanded(
-              child: Obx(() => GridView(
-                  controller: scrol,
-                  padding: const EdgeInsets.all(20),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, childAspectRatio: 0.67),
-                  children: List.generate(
-                      controller.isSearch.value
-                          ? controller.moviesList.length
-                          : controller.moviesList.length + 4, (index) {
-                    if (index >= controller.moviesList.length &&
-                        controller.isSearch.value == false) {
-                      return const MovieShimmerCard();
-                    }
-                    return MovieCard(
-                      movie: controller.moviesList[index],
-                    );
-                  }).toList())),
-            ),
-          ],
+            child: Padding(
+          padding: const EdgeInsets.only(top: 0.0, bottom: 4),
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 12,
+              ),
+              CustomSearchBar(
+                controller: searchController,
+                onSubmit: (s) {
+                  print(s);
+                  controller.searchMovies(query: s);
+                },
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Expanded(
+                child: Obx(() => GridView(
+                    controller: scrol,
+                    padding: const EdgeInsets.all(20),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2, childAspectRatio: 0.66),
+                    children: List.generate(
+                        controller.isSearch.value
+                            ? controller.moviesList.length
+                            : controller.moviesList.length + 4, (index) {
+                      if (index >= controller.moviesList.length &&
+                          controller.isSearch.value == false) {
+                        return const MovieShimmerCard();
+                      }
+                      return MovieCard(
+                        movie: controller.moviesList[index],
+                      );
+                    }).toList())),
+              ),
+            ],
+          ),
         )));
   }
 }

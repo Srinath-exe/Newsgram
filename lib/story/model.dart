@@ -35,6 +35,6 @@ String imgs({required String tag}) {
   } else if (tag == "travel") {
     return "assets/images/travel.png";
   } else {
-    return "assets/images/technology.png";
+    return "assets/images/news.png";
   }
 }
