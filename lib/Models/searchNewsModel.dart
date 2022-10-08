@@ -97,8 +97,7 @@ class SearchNewsArticleList {
         pubDate: json["pub_date"],
         newsDesk: json["news_desk"],
         sectionName: json["section_name"],
-        subsectionName:
-            json["subsection_name"] == null ? "null" : json["subsection_name"],
+        subsectionName: json["subsection_name"] ?? "null",
         byline: Byline.fromJson(json["byline"]),
         id: json["_id"],
         wordCount: json["word_count"],
@@ -115,7 +114,7 @@ class SearchNewsArticleList {
         "pub_date": pubDate,
         "news_desk": newsDesk,
         "section_name": sectionName,
-        "subsection_name": subsectionName == null ? "null" : subsectionName,
+        "subsection_name": subsectionName ?? "",
         "byline": byline.toJson(),
         "_id": id,
         "word_count": wordCount,

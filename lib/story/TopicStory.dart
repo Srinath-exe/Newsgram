@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:lottie/lottie.dart';
 import 'package:news_app/Cards/widgets.dart';
 import 'package:news_app/Models/NewsModel.dart';
 import 'package:news_app/constants/constants.dart';
@@ -9,8 +11,13 @@ import 'package:timeago/timeago.dart' as timeago;
 
 class TopicStory extends StatefulWidget {
   List<NewsArticleModel> newslist;
+  String title;
   Function(bool) onNext;
-  TopicStory({super.key, required this.newslist, required this.onNext});
+  TopicStory(
+      {super.key,
+      required this.newslist,
+      required this.onNext,
+      required this.title});
 
   @override
   State<TopicStory> createState() => _TopicStoryState();
@@ -37,8 +44,6 @@ class _TopicStoryState extends State<TopicStory> {
             setState(() {
               currentPage = pos;
             });
-            print(currentPage);
-            print(widget.newslist.length);
           },
           children:
               List.generate(storyNum, (index) => view(widget.newslist[index])),
@@ -83,55 +88,117 @@ class _TopicStoryState extends State<TopicStory> {
           ],
         )),
         Positioned(
+          top: 20,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(
-              mainAxisSize: MainAxisSize.max,
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   height: 50,
                   width: 50,
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
+                      color: black,
                       // borderRadius: BorderRadius.circular(50),
                       image: DecorationImage(
-                          image: AssetImage(
-                            imgs(tag: widget.newslist[currentPage].section),
-                          ),
-                          fit: BoxFit.cover)),
+                        image: AssetImage(
+                          imgs(tag: widget.title),
+                        ),
+                        fit: BoxFit.cover,
+                      )),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    widget.newslist[currentPage].section,
-                    style: mainstyle.copyWith(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 20,
-                    ),
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        capitalize(widget.title),
+                        style: mainstyle.copyWith(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 20,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        timeago
+                            .format(widget.newslist[currentPage].createdDate),
+                        style: mainstyle.copyWith(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: white,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
           ),
-        )
+        ),
+        Positioned(
+            top: 0,
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children:
+                      List.generate(storyNum, (index) => div(index: index))),
+            ))
       ],
     ));
+  }
+
+  div({required int index}) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 4.0),
+      child: Container(
+        width: Config().deviceWidth(context) / 3,
+        height: 2,
+        decoration: BoxDecoration(
+            color: index >= currentPage ? Colors.grey.shade600 : white,
+            borderRadius: BorderRadius.circular(20)),
+      ),
+    );
   }
 
   view(
     NewsArticleModel news,
   ) {
     return Material(
+      color: black,
       child: Container(
         height: Config().deviceHeight(context) * 0.5,
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                image: NetworkImage(news.multimedia[0].url),
-                fit: BoxFit.cover)),
+        // decoration: BoxDecoration(
+        //     image: DecorationImage(
+        //         image: CachedNetworkImageProvider(news.multimedia[0].url),
+        //         fit: BoxFit.cover)
+
         child: Stack(
-          alignment: AlignmentDirectional.topCenter,
+          alignment: AlignmentDirectional.bottomEnd,
           clipBehavior: Clip.hardEdge,
           children: [
+            Container(
+              height: Config().deviceHeight(context),
+              width: Config().deviceWidth(context),
+              child: CachedNetworkImage(
+                imageUrl: news.multimedia[0].url,
+                fit: BoxFit.cover,
+                placeholder: (context, url) => Lottie.asset(
+                    'assets/lottie/newsload.json',
+                    width: 400,
+                    height: 600),
+              ),
+            ),
             Positioned(
               bottom: 20,
               child: Container(

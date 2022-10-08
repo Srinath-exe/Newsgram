@@ -1,9 +1,15 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:news_app/Cards/MovieCard.dart';
 import 'package:news_app/Cards/NewsArticleCard.dart';
 import 'package:news_app/Cards/SearchNewsArcticleCard.dart';
+import 'package:news_app/Cards/SearchPost.dart';
+import 'package:news_app/Cards/ShimmerPost.dart';
+import 'package:news_app/HomeScreen/widgets/homeNewscards.dart';
+import 'package:news_app/HomeScreen/widgets/homeShimmerCard.dart';
 import 'package:news_app/constants/constants.dart';
 import 'package:news_app/controllers/MovieController.dart';
 import 'package:news_app/controllers/NewsController.dart';
@@ -38,57 +44,110 @@ class _SearchScreenState extends State<NewsScreen> {
         backgroundColor: secondary,
         body: SafeArea(
             child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 12,
-                ),
-                CustomSearchBar(
-                  controller: searchController,
-                  onSubmit: (s) {
-                    controller.searchNews(search: s);
-                  },
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Obx(() => Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 12,
+              ),
+              CustomSearchBar(
+                controller: searchController,
+                onSubmit: (s) {
+                  controller.searchNews(search: s);
+                },
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Obx(() => Padding(
+                    padding: const EdgeInsets.all(0.0),
+                    child: Column(
                         children: controller.isSearch.value
-                            ? List.generate(
-                                controller.searchNewsArticles.length, (index) {
-                                // if (index >=
-                                //     controller.homeNewsArticles.length) {
-                                //   return NewsSimmerCard();
-                                // }
-                                return controller.isSearchLoading.value
-                                    ? NewsSimmerCard()
-                                    : SearchNewsArticleCard(
-                                        news: controller
-                                            .searchNewsArticles[index],
-                                      );
-                              })
-                            : List.generate(
-                                controller.homeNewsArticles.length + 2,
-                                (index) {
-                                if (index >=
-                                    controller.homeNewsArticles.length) {
-                                  return NewsSimmerCard();
-                                }
-                                return controller.isLoading.value
-                                    ? NewsSimmerCard()
-                                    : NewsArticleCard(
-                                        news:
-                                            controller.homeNewsArticles[index],
-                                      );
-                              }).toList(),
-                      ),
-                    )),
-              ],
-            ),
+                            ? !controller.isSearchLoading.value
+                                ? List.generate(
+                                    controller.searchNewsArticles.length,
+                                    (index) {
+                                    log("isSearchLoading " +
+                                        controller.isSearchLoading.value
+                                            .toString());
+                                    return SearchPost(
+                                      news:
+                                          controller.searchNewsArticles[index],
+                                    );
+                                  })
+                                : [const ShimmerPost()]
+                            : [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10.0, horizontal: 24),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Headlines",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 24,
+                                            color: black),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Obx(
+                                  () => controller.isLoading.value
+                                      ? HomeSimmerCard()
+                                      : HomeNewsCards(),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10.0, horizontal: 24),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "World News",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 24,
+                                            color: black),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Obx(
+                                  () => controller.isworld.value
+                                      ? HomeSimmerCard()
+                                      : HomeNewsCards(
+                                          notHome: true,
+                                        ),
+                                )
+                              ]
+                        //  Obx(
+                        //   () => controller.isLoading.value
+                        //       ? HomeSimmerCard()
+                        //       : const HomeNewsCards(),
+                        // );
+                        //  List.generate(
+                        //     controller.homeNewsArticles.length + 2,
+                        //     (index) {
+                        //     if (index >=
+                        //         controller.homeNewsArticles.length) {
+                        //       return NewsSimmerCard();
+                        //     }
+                        //     return controller.isLoading.value
+                        //         ? NewsSimmerCard()
+                        //         : NewsArticleCard(
+                        //             news:
+                        //                 controller.homeNewsArticles[index],
+                        //           );
+                        //   }).toList(),
+                        ),
+                  )),
+            ],
           ),
         )));
   }

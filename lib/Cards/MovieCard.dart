@@ -1,7 +1,9 @@
 import 'package:blur/blur.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:lottie/lottie.dart';
 import 'package:news_app/Models/ReviewsModel.dart';
 import 'package:news_app/constants/constants.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
@@ -36,10 +38,15 @@ class _MovieCardState extends State<MovieCard> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
                     ),
-                    child: Image.network(
-                      widget.movie.multimedia!.src,
+                    child: CachedNetworkImage(
+                      imageUrl: widget.movie.multimedia!.src,
                       height: Config().deviceHeight(context) * 0.22,
                       fit: BoxFit.cover,
+                      placeholder: (context, url) => Lottie.asset(
+                          'assets/lottie/newsload.json',
+                          width: 80,
+                          reverse: false,
+                          repeat: false),
                     ),
                   ),
                   Padding(
@@ -47,6 +54,7 @@ class _MovieCardState extends State<MovieCard> {
                     child: Text(
                       widget.movie.displayTitle,
                       maxLines: 2,
+                      textAlign: TextAlign.center,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontWeight: FontWeight.w500,

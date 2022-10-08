@@ -36,7 +36,7 @@ class _HomeSimmerCardState extends State<HomeSimmerCard> {
             width: Config().deviceWidth(context) * 0.85,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
-              gradient: LinearGradient(colors: [white, secondary]),
+              gradient: LinearGradient(colors: [lightgrey, secondary]),
             ),
             child: Stack(
               alignment: AlignmentDirectional.topCenter,
@@ -48,8 +48,8 @@ class _HomeSimmerCardState extends State<HomeSimmerCard> {
                     padding: const EdgeInsets.all(16.0),
                     child: Shimmer(
                       loop: 0,
-                      period: const Duration(milliseconds: 4000),
-                      gradient: LinearGradient(colors: [secondary, white]),
+                      period: const Duration(milliseconds: 2000),
+                      gradient: LinearGradient(colors: [secondary, lightgrey]),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -140,8 +140,9 @@ class _HomeSimmerCardState extends State<HomeSimmerCard> {
                 Positioned(
                     child: Shimmer(
                         loop: 0,
-                        period: const Duration(milliseconds: 4000),
-                        gradient: LinearGradient(colors: [secondary, white]),
+                        period: const Duration(milliseconds: 2000),
+                        gradient:
+                            LinearGradient(colors: [secondary, lightgrey]),
                         child: Icon(
                           Icons.newspaper_rounded,
                           color: white,

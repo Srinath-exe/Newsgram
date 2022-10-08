@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
@@ -18,14 +20,14 @@ class MovieScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<MovieScreen> {
   final MovieController controller = Get.find();
-  late DateTime date;
-  DateTime now = DateTime.now();
-  ScrollController scrol = ScrollController();
+
+  ScrollController scrol = ScrollController()..addListener(() {});
   TextEditingController searchController = TextEditingController();
   onend() {
     scrol.addListener(() {
-      if (scrol.offset == scrol.position.maxScrollExtent &&
+      if (scrol.offset >= (scrol.position.maxScrollExtent - 400) &&
           controller.isSearch.value == false) {
+        log("fetching More");
         controller.fetchMoreMovies();
       }
     });
@@ -33,7 +35,6 @@ class _SearchScreenState extends State<MovieScreen> {
 
   @override
   void initState() {
-    date = now;
     onend();
     super.initState();
   }
@@ -44,7 +45,7 @@ class _SearchScreenState extends State<MovieScreen> {
         body: SafeArea(
             child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 12,
             ),
             CustomSearchBar(
@@ -54,7 +55,7 @@ class _SearchScreenState extends State<MovieScreen> {
                 controller.searchMovies(query: s);
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Expanded(
@@ -69,7 +70,7 @@ class _SearchScreenState extends State<MovieScreen> {
                           : controller.moviesList.length + 4, (index) {
                     if (index >= controller.moviesList.length &&
                         controller.isSearch.value == false) {
-                      return MovieShimmerCard();
+                      return const MovieShimmerCard();
                     }
                     return MovieCard(
                       movie: controller.moviesList[index],

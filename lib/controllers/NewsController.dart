@@ -8,6 +8,7 @@ import 'package:news_app/Repository/NewsRepository.dart';
 class NewsController extends GetxController {
   var isLoading = true.obs;
   var allnewsload = true.obs;
+  var isworld = true.obs;
   var homeNewsArticles = <NewsArticleModel>[].obs;
   var technology = <NewsArticleModel>[].obs;
   var business = <NewsArticleModel>[].obs;
@@ -15,7 +16,7 @@ class NewsController extends GetxController {
   var science = <NewsArticleModel>[].obs;
   var world = <NewsArticleModel>[].obs;
   var allnews = <List<NewsArticleModel>>[].obs;
-// Map<String, List<NewsArticleModel>> finLis;
+  Map<String, List<NewsArticleModel>> finLis = {"sample": []};
   var isSearchLoading = true.obs;
   var isSearch = false.obs;
   var searchNewsArticles = <SearchNewsArticleList>[].obs;
@@ -23,11 +24,13 @@ class NewsController extends GetxController {
   void onInit() {
     super.onInit();
     fetchHomeNews();
-    // getall();
+    getall();
+    finLis.removeWhere((key, value) => key == "sample");
   }
 
-  void getall() {
+  void getall() async {
     allnewsload.value = true;
+
     fetchTechNews();
     fetchScienceNews();
     fetchSportsNews();
@@ -36,16 +39,32 @@ class NewsController extends GetxController {
     fetchTravelNews();
     fetchCarNews();
     fetchBusinessNews();
-    allnewsload.value = false;
+  }
+
+  void onreload() {
+    allnewsload.value = true;
+    isLoading.value = true;
+    allnews.clear();
+    homeNewsArticles.clear();
+    fetchHomeNews();
+    fetchTechNews();
+    fetchScienceNews();
+    fetchSportsNews();
+    fetchMoviesNews();
+    fetchPoliticalNews();
+    fetchTravelNews();
+    fetchCarNews();
+    fetchBusinessNews();
   }
 
   void searchNews({required String search}) async {
-    isSearchLoading.value = true;
     if (search == "") {
       isSearch.value = false;
+      isSearchLoading.value = false;
     } else {
       isSearch.value = true;
     }
+    isSearchLoading.value = true;
 
     var news = await NewsRepository().searchNews(search: search);
     if (news != []) {
@@ -61,6 +80,7 @@ class NewsController extends GetxController {
     var news = await NewsRepository().getNews(tag: "home");
     if (news != []) {
       homeNewsArticles.value = news;
+      // finLis["home"] = news;
     }
     isLoading.value = false;
   }
@@ -70,7 +90,7 @@ class NewsController extends GetxController {
     if (news != []) {
       technology.value = news;
       allnews.add(news);
-      // finLis.addAll({"technology": news});
+      finLis["technology"] = news;
 
       log("technology got it ");
     }
@@ -81,7 +101,7 @@ class NewsController extends GetxController {
     if (news != []) {
       science.value = news;
       allnews.add(news);
-      // finLis.addAll({"science": news});
+      finLis["science"] = news;
       log("science got it ");
     }
   }
@@ -91,17 +111,29 @@ class NewsController extends GetxController {
     if (news != []) {
       sports.value = news;
       allnews.add(news);
-      // finLis.addAll({"sports": news});
+      finLis["sports"] = news;
       log("sports got it ");
     }
   }
 
   void fetchWorldNews() async {
+    isworld.value = true;
+    var news = await NewsRepository().getNews(tag: "world");
+    if (news != []) {
+      world.value = news;
+      allnews.add(news);
+      finLis["world"] = news;
+      log("World got it ");
+      isworld.value = false;
+    }
+  }
+
+  void fetchMoviesNews() async {
     var news = await NewsRepository().getNews(tag: "movies");
     if (news != []) {
       world.value = news;
       allnews.add(news);
-      // finLis.addAll({"movies": news});
+      finLis["movies"] = news;
       log("movies got it ");
     }
   }
@@ -111,7 +143,7 @@ class NewsController extends GetxController {
     if (news != []) {
       world.value = news;
       allnews.add(news);
-      // finLis.addAll({"politics": news});
+      finLis["politics"] = news;
       log("politics got it ");
     }
   }
@@ -121,7 +153,7 @@ class NewsController extends GetxController {
     if (news != []) {
       world.value = news;
       allnews.add(news);
-      // finLis.addAll({"travel": news});
+      finLis["travel"] = news;
       log("travel got it ");
     }
   }
@@ -131,7 +163,7 @@ class NewsController extends GetxController {
     if (news != []) {
       world.value = news;
       allnews.add(news);
-      // finLis.addAll({"automobiles": news});
+      finLis["automobiles"] = news;
       log("automobile got it ");
     }
   }
@@ -141,19 +173,9 @@ class NewsController extends GetxController {
     if (news != []) {
       world.value = news;
       allnews.add(news);
-      // finLis.addAll({"business": news});
+      finLis["business"] = news;
 
       log("business got it ");
-    }
-  }
-
-  void fetchFoodNews() async {
-    var news = await NewsRepository().getNews(tag: "food");
-    if (news != []) {
-      world.value = news;
-      allnews.add(news);
-      // finLis.addAll({"food": news});
-      log("food got it ");
     }
   }
 }

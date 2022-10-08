@@ -6,6 +6,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:news_app/Cards/widgets.dart';
+import 'package:news_app/Models/NewsModel.dart';
 import 'package:news_app/controllers/NewsController.dart';
 import 'package:news_app/story/StoriesPage.dart';
 import 'package:news_app/story/model.dart';
@@ -28,15 +29,20 @@ class _NewsStoryState extends State<NewsStory> {
     final NewsController controller = Get.find();
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      child: Obx(() => controller.allnewsload.value
-          ? storyShimmer()
-          : Row(
-              children: List.generate(controller.allnews.length, (index) {
-                return story(
-                    imgLink: imgs(tag: controller.allnews[index][1].section),
-                    title: capitalize(controller.allnews[index][1].section));
-              }),
-            )),
+      child: Obx(() {
+        return controller.allnews.length < 8
+            ? storyShimmer()
+            : Row(
+                children: List.generate(controller.finLis.length, (index) {
+                  return story(
+                      index: index,
+                      list: controller.finLis.values.elementAt(index),
+                      imgLink:
+                          imgs(tag: controller.finLis.keys.elementAt(index)),
+                      title: controller.finLis.keys.elementAt(index));
+                }),
+              );
+      }),
     );
   }
 
@@ -49,7 +55,7 @@ class _NewsStoryState extends State<NewsStory> {
               (index) => Shimmer(
                   loop: 0,
                   period: const Duration(milliseconds: 4000),
-                  gradient: LinearGradient(colors: [secondary, white]),
+                  gradient: LinearGradient(colors: [secondary, lightgrey]),
                   child: const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: CircleAvatar(
@@ -59,19 +65,36 @@ class _NewsStoryState extends State<NewsStory> {
     );
   }
 
-  story({required String imgLink, required String title}) {
+  story(
+      {required String imgLink,
+      required String title,
+      required int index,
+      required List<NewsArticleModel> list}) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(bottom: 0.0, left: 8),
       child: ZoomTapAnimation(
         onTap: () {
           showDialog(
               barrierColor: black,
               context: context,
               builder: (BuildContext context) {
-                return const StoriesPage();
+                return GestureDetector(
+                    onVerticalDragUpdate: (details) {
+                      int sensitivity = 10;
+                      if (details.delta.dy > sensitivity ||
+                          details.delta.dy < -sensitivity) {
+                        Navigator.of(context).pop();
+                      }
+                    },
+                    child: StoriesPage(
+                      list: list,
+                      title: title,
+                      index: index,
+                    ));
               });
         },
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Stack(
               alignment: AlignmentDirectional.center,
@@ -98,9 +121,9 @@ class _NewsStoryState extends State<NewsStory> {
               ],
             ),
             const SizedBox(
-              height: 10,
+              height: 4,
             ),
-            Text(title)
+            Text(capitalize(title))
           ],
         ),
       ),

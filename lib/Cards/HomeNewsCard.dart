@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:news_app/Cards/widgets.dart';
@@ -36,8 +37,12 @@ class _HomeNewsCardState extends State<HomeNewsCard> {
               borderRadius: BorderRadius.circular(30),
               color: Colors.black,
               image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(widget.news.multimedia[0].url))),
+                fit: BoxFit.cover,
+                image: CachedNetworkImageProvider(
+                  widget.news.multimedia[0].url,
+                  errorListener: () {},
+                ),
+              )),
           child: Stack(
             alignment: AlignmentDirectional.topCenter,
             clipBehavior: Clip.hardEdge,

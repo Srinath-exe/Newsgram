@@ -30,7 +30,7 @@ class _MovieShimmerCardState extends State<MovieShimmerCard> {
                 Shimmer(
                   loop: 0,
                   period: const Duration(milliseconds: 4000),
-                  gradient: LinearGradient(colors: [secondary, white]),
+                  gradient: LinearGradient(colors: [lightgrey, lightgrey]),
                   child: Column(children: [
                     Material(
                       elevation: 2,

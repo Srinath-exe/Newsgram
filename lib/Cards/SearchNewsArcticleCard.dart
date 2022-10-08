@@ -1,4 +1,5 @@
 import 'package:blur/blur.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:news_app/Models/NewsModel.dart';
@@ -36,8 +37,9 @@ class _NewsArticleCardState extends State<SearchNewsArticleCard> {
                         clipBehavior: Clip.hardEdge,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20)),
-                        child: Image.network(
-                          "https://www.nytimes.com/${widget.news.multimedia[0].url}",
+                        child: CachedNetworkImage(
+                          imageUrl:
+                              "https://www.nytimes.com/${widget.news.multimedia[0].url}",
                           fit: BoxFit.cover,
                           width: Config().deviceWidth(context) * 1,
                           height: Config().deviceHeight(context) * 0.2,

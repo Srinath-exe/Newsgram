@@ -1,6 +1,8 @@
 import 'package:blur/blur.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:lottie/lottie.dart';
 import 'package:news_app/Models/NewsModel.dart';
 import 'package:news_app/constants/constants.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -35,13 +37,16 @@ class _NewsArticleCardState extends State<NewsArticleCard> {
                         clipBehavior: Clip.hardEdge,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20)),
-                        child: Image.network(
-                          widget.news.multimedia[0].url == ""
+                        child: CachedNetworkImage(
+                          imageUrl: widget.news.multimedia[0].url == ""
                               ? widget.news.multimedia[1].url
                               : widget.news.multimedia[0].url,
                           fit: BoxFit.cover,
                           width: Config().deviceWidth(context) * 1,
                           height: Config().deviceHeight(context) * 0.2,
+                          placeholder: (context, url) => Lottie.asset(
+                            'assets/lottie/newsload.json',
+                          ),
                         )),
                     Padding(
                       padding: const EdgeInsets.symmetric(
