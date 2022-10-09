@@ -9,6 +9,8 @@ class NewsController extends GetxController {
   var isLoading = true.obs;
   var allnewsload = true.obs;
   var isworld = true.obs;
+  var isDeafult = true.obs;
+  var index = 0.obs;
   var homeNewsArticles = <NewsArticleModel>[].obs;
   var technology = <NewsArticleModel>[].obs;
   var business = <NewsArticleModel>[].obs;

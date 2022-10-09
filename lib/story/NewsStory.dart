@@ -26,7 +26,6 @@ class _NewsStoryState extends State<NewsStory> {
   final NewsController controller = Get.find();
   @override
   Widget build(BuildContext context) {
-    final NewsController controller = Get.find();
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Obx(() {
@@ -55,7 +54,8 @@ class _NewsStoryState extends State<NewsStory> {
               (index) => Shimmer(
                   loop: 0,
                   period: const Duration(milliseconds: 4000),
-                  gradient: LinearGradient(colors: [grey, lightgrey]),
+                  gradient:
+                      LinearGradient(colors: [grey, Colors.grey.shade400]),
                   child: const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: CircleAvatar(

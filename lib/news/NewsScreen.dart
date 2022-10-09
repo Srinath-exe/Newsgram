@@ -56,6 +56,12 @@ class _SearchScreenState extends State<NewsScreen> {
                   onSubmit: (s) {
                     controller.searchNews(search: s);
                   },
+                  onClose: () {
+                    log("CLOSED");
+                    controller.isSearch.value = false;
+                    controller.isSearchLoading.value = false;
+                    // controller.searchNews(search: "");
+                  },
                 ),
                 const SizedBox(
                   height: 20,

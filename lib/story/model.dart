@@ -34,6 +34,10 @@ String imgs({required String tag}) {
     return "assets/images/movies.png";
   } else if (tag == "travel") {
     return "assets/images/travel.png";
+  } else if (tag == "automobiles") {
+    return "assets/images/automobiles.png";
+  } else if (tag == "world") {
+    return "assets/images/world.png";
   } else {
     return "assets/images/news.png";
   }

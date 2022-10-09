@@ -52,6 +52,7 @@ dependencies:
   delayed_display: ^2.0.0
   flutter_launcher_icons: ^0.10.0
   flutter_native_splash: ^2.2.10+1
+  vertical_card_pager: ^1.5.0
 
 dev_dependencies:
   flutter_test:

@@ -11,6 +11,7 @@ import 'package:news_app/Cards/HomePost.dart';
 import 'package:news_app/Cards/NewsArticleCard.dart';
 import 'package:news_app/Cards/SearchNewsArcticleCard.dart';
 import 'package:news_app/Cards/ShimmerPost.dart';
+import 'package:news_app/HomeScreen/widgets/SelectTopic.dart';
 import 'package:news_app/HomeScreen/widgets/homeShimmerCard.dart';
 import 'package:news_app/story/NewsStory.dart';
 import 'package:news_app/HomeScreen/widgets/homeNewscards.dart';
@@ -93,16 +94,27 @@ class _HomeScreenState extends State<HomeScreen> {
                       const SizedBox(
                         height: 20,
                       ),
+                      SelectTopic(),
                       Obx(() => controller.isLoading.value == true
                           ? Column(
                               children: [ShimmerPost(), ShimmerPost()],
                             )
-                          : Column(
-                              children: List.generate(
-                                  controller.homeNewsArticles.length,
-                                  (index) => HomePost(
-                                      news: controller
-                                          .homeNewsArticles[index])))),
+                          : controller.isDeafult.value
+                              ? Column(
+                                  children: List.generate(
+                                      controller.homeNewsArticles.length,
+                                      (index) => HomePost(
+                                          news: controller
+                                              .homeNewsArticles[index])))
+                              : Column(
+                                  children: List.generate(
+                                      controller.finLis.values
+                                          .elementAt(controller.index.value)
+                                          .length,
+                                      (index) => HomePost(
+                                          news: controller.finLis.values
+                                              .elementAt(controller
+                                                  .index.value)[index])))),
                       Obx(() => controller.homeNewsArticles.isNotEmpty
                           ? Column(
                               children: [

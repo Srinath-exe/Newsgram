@@ -75,7 +75,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                       suffixIcon: IconButton(
                           splashRadius: 10,
                           onPressed: () {
-                            // widget.onClose;
+                            widget.onClose;
                             setState(() {
                               widget.controller.clear();
                               FocusManager.instance.primaryFocus?.unfocus();
