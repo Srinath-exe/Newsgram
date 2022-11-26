@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 String BASEURL = " ";
 String APIKEY = "OTz3XRALgqmipUGBJvkyOx8Ivy4tDu3I";
+String movieAPIKEY = "396d153beb96e51413771c157c98d7c9";
+String imagebaseULR = "https://www.themoviedb.org/t/p/w220_and_h330_face/";
 
 class Config {
   double deviceHeight(BuildContext context) {

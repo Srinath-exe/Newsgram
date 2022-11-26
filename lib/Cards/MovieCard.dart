@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:lottie/lottie.dart';
+import 'package:news_app/Models/MoviesModel.dart';
 import 'package:news_app/Models/ReviewsModel.dart';
 import 'package:news_app/constants/constants.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class MovieCard extends StatefulWidget {
-  MovieModel movie;
+  MoviesModel movie;
   MovieCard({super.key, required this.movie});
 
   @override
@@ -39,7 +40,7 @@ class _MovieCardState extends State<MovieCard> {
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: CachedNetworkImage(
-                      imageUrl: widget.movie.multimedia!.src,
+                      imageUrl: imagebaseULR + widget.movie.posterPath,
                       height: Config().deviceHeight(context) * 0.22,
                       fit: BoxFit.cover,
                       placeholder: (context, url) => Lottie.asset(
@@ -52,7 +53,7 @@ class _MovieCardState extends State<MovieCard> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      widget.movie.displayTitle,
+                      widget.movie.originalTitle,
                       maxLines: 2,
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.ellipsis,
@@ -70,14 +71,14 @@ class _MovieCardState extends State<MovieCard> {
                       padding: const EdgeInsets.all(10.0),
                       child: Text(
                         timeago.format(
-                          DateTime.parse(widget.movie.publicationDate),
+                          DateTime.parse(widget.movie.releaseDate.toString()),
                         ),
                         style: TextStyle(color: black, fontSize: 10),
                       ),
                     ).frosted(
                         frostColor: white,
                         frostOpacity: 0.2,
-                        borderRadius: BorderRadius.only(
+                        borderRadius: const BorderRadius.only(
                             bottomLeft: Radius.circular(20)))),
               ],
             ),
