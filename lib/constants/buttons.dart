@@ -19,10 +19,10 @@ class ThemeButton extends StatefulWidget {
       this.onTap,
       this.constraints = const BoxConstraints(),
       this.borderRadius = 50,
-      this.txtColor = Colors.black,
+      this.txtColor = Colors.white,
       this.elevation = 2,
       required this.text,
-      this.bgColor = const Color(0xffA8FF35),
+      this.bgColor = Colors.black,
       this.padding = const EdgeInsets.all(10),
       this.height = 70,
       this.fontsize = 18,
@@ -64,9 +64,22 @@ class _ThemeButtonState extends State<ThemeButton> {
                         color: widget.outlineButton!
                             ? Colors.black
                             : widget.txtColor,
-                        fontWeight: FontWeight.w700))
+                        fontWeight: FontWeight.w500))
                 : widget.child!),
       ),
     );
   }
 }
+
+// CarouselSlider(
+//         carouselController: controller,
+//         options: CarouselOptions(
+//             height: 600.0,
+//             clipBehavior: Clip.none,
+//             autoPlay: false,
+//             enlargeCenterPage: true,
+//             enlargeStrategy: CenterPageEnlargeStrategy.scale,
+//             viewportFraction: 0.8),
+//         items: List.generate(
+//             newList.length, (index) => OvalCard(movie: newList[index])),
+//       ),
