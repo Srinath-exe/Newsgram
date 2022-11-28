@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:news_app/MainScreen/mainPage.dart';
 import 'package:news_app/Models/f.dart';
 import 'package:news_app/movies/MovieScreen.dart';
+import 'package:news_app/movies/MoviesMain.dart';
 import 'package:news_app/story/TopicStory.dart';
 import 'package:news_app/story/model.dart';
 import 'package:news_app/yeeppi.dart';
@@ -23,20 +24,22 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'News App',
-        theme: ThemeData(
-          platform: TargetPlatform.iOS,
-          fontFamily: 'Montserrat',
-          primarySwatch: Colors.blue,
-          pageTransitionsTheme: const PageTransitionsTheme(
-            builders: <TargetPlatform, PageTransitionsBuilder>{
-              TargetPlatform.iOS: ZoomPageTransitionsBuilder(),
-              TargetPlatform.android: ZoomPageTransitionsBuilder(),
-            },
-          ),
+      title: 'News App',
+      theme: ThemeData(
+        platform: TargetPlatform.iOS,
+        fontFamily: 'Montserrat',
+        primarySwatch: Colors.blue,
+        pageTransitionsTheme: const PageTransitionsTheme(
+          builders: <TargetPlatform, PageTransitionsBuilder>{
+            TargetPlatform.iOS: ZoomPageTransitionsBuilder(),
+            TargetPlatform.android: ZoomPageTransitionsBuilder(),
+          },
         ),
-        home: MainPage(
-          index: 2,
-        ));
+      ),
+      home: MoviesMain(),
+      // MainPage(
+      //   index: 2,
+      // )
+    );
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:news_app/Models/MovieDetailsModel.dart';
 import 'package:news_app/Models/MoviesModel.dart';
 import 'package:news_app/Models/ReviewsModel.dart';
 import 'package:news_app/Repository/Repository..dart';
@@ -83,6 +84,21 @@ class MovieRepository {
       return movieList;
     } else {
       return [];
+    }
+  }
+
+  Future<MoviesDetailsModel?> getMovieDetails(
+      {required String movie_id}) async {
+    final response = await API.get(
+        url:
+            'https://api.themoviedb.org/3/movie/${movie_id}?api_key=${movieAPIKEY}');
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      var movieDetails = moviesDetailsModelFromJson(response.body);
+      log(movieDetails.toString());
+      return movieDetails;
+    } else {
+      return null;
     }
   }
 
