@@ -3,12 +3,14 @@ import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:lottie/lottie.dart';
 import 'package:money_formatter/money_formatter.dart';
 import 'package:news_app/Models/MoviesModel.dart';
 import 'package:news_app/constants/HeroWidget.dart';
 import 'package:news_app/constants/constants.dart';
 import 'package:news_app/constants/stars.dart';
+import 'package:number_slide_animation/number_slide_animation.dart';
 
 import '../Models/MovieDetailsModel.dart';
 
@@ -61,29 +63,75 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    Text(
-                      widget.m1.voteAverage.toString(),
-                      style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.w500),
-                    ),
+                    // Text(
+                    //   widget.m1.voteAverage.toString(),
+                    //   style: const TextStyle(
+                    //       fontSize: 16, fontWeight: FontWeight.w500),
+                    // ),
                   ],
                 ),
               ),
             ),
-            IconTheme(
-              data: const IconThemeData(
+            RatingBarIndicator(
+              rating: widget.movie.voteAverage / 2,
+              unratedColor: Colors.grey.shade200,
+              itemBuilder: (context, index) => const Icon(
+                Icons.star,
                 color: Colors.amber,
-                size: 48,
               ),
-              child: StarDisplay(value: (widget.movie.voteAverage / 2).toInt()),
+              itemCount: 5,
+              itemSize: 26.0,
+              direction: Axis.horizontal,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  NumberSlideAnimation(
+                    number: (widget.movie.voteAverage).toInt().toString(),
+                    duration: const Duration(seconds: 2),
+                    curve: Curves.bounceIn,
+                    textStyle: const TextStyle(
+                        fontSize: 36.0, fontWeight: FontWeight.bold),
+                  ),
+                  const Text(
+                    ".",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                  ),
+                  NumberSlideAnimation(
+                    number: ((widget.movie.voteAverage -
+                                widget.movie.voteAverage.toInt()) *
+                            100)
+                        .toInt()
+                        .toString(),
+                    duration: const Duration(seconds: 2),
+                    curve: Curves.bounceIn,
+                    textStyle: const TextStyle(
+                        fontSize: 36.0, fontWeight: FontWeight.bold),
+                  ),
+                  const Text(
+                    "  /  ",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                  ),
+                  const Text(
+                    "10",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(widget.movie.genres.length,
                   (index) => chips(widget.movie.genres[index])),
             ),
+            title("\" ${widget.movie.tagline} \""),
             title("Overview"),
-            title(widget.movie.overview),
+            title(widget.movie.overview,
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
 
             Padding(
               padding:
@@ -168,7 +216,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
           Text(
             txt,
             style: style == null
-                ? const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)
+                ? const TextStyle(fontSize: 18, fontWeight: FontWeight.w600)
                 : style,
           ),
         ],

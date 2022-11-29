@@ -9,6 +9,7 @@ import 'package:news_app/constants/buttons.dart';
 import 'package:news_app/constants/constants.dart';
 import 'package:news_app/constants/stars.dart';
 import 'package:news_app/movies/MovieDetails.dart';
+import 'package:number_slide_animation/number_slide_animation.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 import '../Models/MoviesModel.dart';
@@ -102,7 +103,7 @@ class _OvalCardState extends State<OvalCard> {
                       child: Column(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(4.0),
                             child: Text(
                               widget.movie.title,
                               style: TextStyle(
@@ -110,10 +111,48 @@ class _OvalCardState extends State<OvalCard> {
                               textAlign: TextAlign.center,
                             ),
                           ),
-                          Text(
-                            widget.movie.voteAverage.toString(),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          NumberSlideAnimation(
+                            number:
+                                (widget.movie.voteAverage).toInt().toString(),
+                            duration: const Duration(seconds: 2),
+                            curve: Curves.bounceIn,
+                            textStyle: const TextStyle(
+                                fontSize: 18.0, fontWeight: FontWeight.w600),
+                          ),
+                          const Text(
+                            ".",
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.w500),
+                          ),
+                          NumberSlideAnimation(
+                            number: ((widget.movie.voteAverage -
+                                        widget.movie.voteAverage.toInt()) *
+                                    100)
+                                .toInt()
+                                .toString(),
+                            duration: const Duration(seconds: 2),
+                            curve: Curves.bounceIn,
+                            textStyle: const TextStyle(
+                                fontSize: 18.0, fontWeight: FontWeight.w600),
+                          ),
+                          const Text(
+                            "  /  ",
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w500),
+                          ),
+                          const Text(
+                            "10",
+                            style: TextStyle(
+                                fontSize: 12, fontWeight: FontWeight.w500),
                           ),
                         ],
                       ),
