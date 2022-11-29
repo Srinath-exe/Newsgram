@@ -2,8 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:news_app/Models/f.dart';
+import 'package:news_app/constants/HeroWidget.dart';
 import 'package:news_app/constants/buttons.dart';
 import 'package:news_app/constants/constants.dart';
+import 'package:news_app/constants/stars.dart';
+import 'package:news_app/movies/MovieDetails.dart';
+import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 import '../Models/MoviesModel.dart';
 
@@ -18,77 +24,129 @@ class OvalCard extends StatefulWidget {
 class _OvalCardState extends State<OvalCard> {
   @override
   Widget build(BuildContext context) {
-    return Material(
-      elevation: 40,
-      borderRadius: BorderRadius.circular(200),
-      child: Container(
-        // height: 600,
-        // width: 300,
-        clipBehavior: Clip.hardEdge,
-        constraints: BoxConstraints(maxHeight: 700, minHeight: 500),
-        decoration: BoxDecoration(
-          boxShadow: [
-            // BoxShadow(
-            //     offset: Offset(0, 50),
-            //     blurRadius: 100.0,
-            //     color: lightgrey.withOpacity(0)),
-          ],
-          color: white,
-          borderRadius: BorderRadius.circular(200),
-        ),
-        child: Stack(
-          fit: StackFit.passthrough,
-          alignment: AlignmentDirectional.center,
-          children: [
-            Positioned(
-                bottom: -10,
-                child: ThemeButton(
-                  text: "See more",
-                  height: 80,
-                  borderRadius: 40,
-                )),
-            Container(
-              width: 300,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Container(
-                      height: 350,
-                      width: 300,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(200),
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: CachedNetworkImageProvider(
-                              imagebaseULR + widget.movie.posterPath,
-                              errorListener: () {},
+    return ZoomTapAnimation(
+      end: 0.98,
+      onTap: () {
+        Navigator.of(context).push(PageRouteBuilder(
+            transitionDuration: Duration(milliseconds: 400),
+            reverseTransitionDuration: Duration(milliseconds: 100),
+            pageBuilder: ((context, animation, secondaryAnimation) {
+              final curvedAnimation =
+                  CurvedAnimation(parent: animation, curve: Interval(0, 0.5));
+
+              return FadeTransition(
+                opacity: curvedAnimation,
+                child: MovieDetailsScreen(
+                  movie: moviedetail,
+                  m1: widget.movie,
+                ),
+              );
+            })));
+      },
+      child: Material(
+        elevation: 40,
+        borderRadius: BorderRadius.circular(200),
+        child: Container(
+          // height: 600,
+          // width: 300,
+          clipBehavior: Clip.hardEdge,
+          constraints: BoxConstraints(maxHeight: 700, minHeight: 500),
+          decoration: BoxDecoration(
+            boxShadow: [
+              // BoxShadow(
+              //     offset: Offset(0, 50),
+              //     blurRadius: 100.0,
+              //     color: lightgrey.withOpacity(0)),
+            ],
+            color: white,
+            borderRadius: BorderRadius.circular(200),
+          ),
+          child: Stack(
+            fit: StackFit.passthrough,
+            alignment: AlignmentDirectional.center,
+            children: [
+              Positioned(
+                  bottom: -10,
+                  child: ThemeButton(
+                    text: "See more",
+                    height: 80,
+                    borderRadius: 40,
+                  )),
+              Container(
+                width: 300,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Hero(
+                        tag: widget.movie.posterPath,
+                        child: Container(
+                          height: 350,
+                          width: 300,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(200),
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: CachedNetworkImageProvider(
+                                  imagebaseULR + widget.movie.posterPath,
+                                  errorListener: () {},
+                                ),
+                              )),
+                        ),
+                      ),
+                    ),
+                    HeroWidget(
+                      tag: widget.movie.title,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              widget.movie.title,
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.w600),
+                              textAlign: TextAlign.center,
                             ),
-                          )),
+                          ),
+                          Text(
+                            widget.movie.voteAverage.toString(),
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w500),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      widget.movie.title,
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-                      textAlign: TextAlign.center,
+                    RatingBarIndicator(
+                      rating: widget.movie.voteAverage / 2,
+                      unratedColor: Colors.grey.shade200,
+                      itemBuilder: (context, index) => Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                      ),
+                      itemCount: 5,
+                      itemSize: 26.0,
+                      direction: Axis.horizontal,
                     ),
-                  ),
-                  Text(
-                    widget.movie.voteAverage.toString(),
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                  ),
-                  // SizedBox(
-                  //   height: 100,
-                  // )
-                ],
+                    // IconTheme(
+                    //   data: IconThemeData(
+                    //     color: Colors.amber,
+                    //     size: 48,
+                    //   ),
+
+                    //   child: StarDisplay(
+                    //       value: (widget.movie.voteAverage / 2).toInt()),
+                    // ),
+
+                    // SizedBox(
+                    //   height: 100,
+                    // )
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
