@@ -5,6 +5,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:news_app/Models/f.dart';
+import 'package:news_app/constants/buttons.dart';
 import 'package:news_app/constants/constants.dart';
 import 'package:news_app/movies/OvalCard.dart';
 import 'package:scaled_list/scaled_list.dart';
@@ -37,7 +38,7 @@ class _MoviesMainState extends State<MoviesMain> {
                 children: [
                   AnimatedSwitcher(
                       switchInCurve: Curves.bounceInOut,
-                      duration: Duration(milliseconds: 200),
+                      duration: const Duration(milliseconds: 200),
                       child: Container(
                         key: Key(newList[curr].backdropPath),
                         width: Config().deviceWidth(context),
@@ -71,6 +72,13 @@ class _MoviesMainState extends State<MoviesMain> {
                 ],
               ),
               Positioned(
+                  top: 10,
+                  left: 20,
+                  child: SafeArea(
+                      child: CustomBack(
+                    color: white,
+                  ))),
+              Positioned(
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 100.0),
                   child: SizedBox(
@@ -82,9 +90,6 @@ class _MoviesMainState extends State<MoviesMain> {
                             setState(() {
                               curr = i;
                             });
-                          },
-                          onScrolled: (val) {
-                            // log(val.toString());
                           },
                           height: 600.0,
                           clipBehavior: Clip.none,

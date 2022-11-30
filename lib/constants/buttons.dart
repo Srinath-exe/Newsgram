@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/constants/constants.dart';
 
 class ThemeButton extends StatefulWidget {
   String text;
@@ -71,15 +72,36 @@ class _ThemeButtonState extends State<ThemeButton> {
   }
 }
 
-// CarouselSlider(
-//         carouselController: controller,
-//         options: CarouselOptions(
-//             height: 600.0,
-//             clipBehavior: Clip.none,
-//             autoPlay: false,
-//             enlargeCenterPage: true,
-//             enlargeStrategy: CenterPageEnlargeStrategy.scale,
-//             viewportFraction: 0.8),
-//         items: List.generate(
-//             newList.length, (index) => OvalCard(movie: newList[index])),
-//       ),
+class CustomBack extends StatefulWidget {
+  Color color;
+  CustomBack({super.key, required this.color});
+
+  @override
+  State<CustomBack> createState() => _CustomBackState();
+}
+
+class _CustomBackState extends State<CustomBack> {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).pop();
+      },
+      child: Container(
+        child: Row(children: [
+          Icon(
+            Icons.keyboard_backspace,
+            color: widget.color,
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Text(
+            "back",
+            style: TextStyle(color: widget.color, fontSize: 16),
+          )
+        ]),
+      ),
+    );
+  }
+}

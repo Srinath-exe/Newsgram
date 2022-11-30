@@ -8,6 +8,7 @@ import 'package:lottie/lottie.dart';
 import 'package:money_formatter/money_formatter.dart';
 import 'package:news_app/Models/MoviesModel.dart';
 import 'package:news_app/constants/HeroWidget.dart';
+import 'package:news_app/constants/buttons.dart';
 import 'package:news_app/constants/constants.dart';
 import 'package:news_app/constants/stars.dart';
 import 'package:number_slide_animation/number_slide_animation.dart';
@@ -29,164 +30,172 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
     return Scaffold(
       backgroundColor: white,
       body: SingleChildScrollView(
-        child: Column(
+        physics: ClampingScrollPhysics(),
+        child: Stack(
           children: [
-            Hero(
-              tag: widget.movie.posterPath,
-              child: Container(
-                child: CachedNetworkImage(
-                  imageUrl: imagebaseULR + widget.movie.posterPath,
-                  width: Config().deviceWidth(context),
-                  // height: Config().deviceHeight(context) * 0.22,
-                  fit: BoxFit.fitWidth,
-                  placeholder: (context, url) => Lottie.asset(
-                      'assets/lottie/newsload.json',
-                      width: 80,
-                      reverse: false,
-                      repeat: false),
-                ),
-              ),
-            ),
-            HeroWidget(
-              tag: widget.movie.title,
-              child: Container(
-                width: Config().deviceWidth(context),
-                // height: 200,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        widget.m1.title,
-                        style: const TextStyle(
-                            fontSize: 26, fontWeight: FontWeight.w600),
-                        textAlign: TextAlign.center,
-                      ),
+            Column(
+              children: [
+                Hero(
+                  tag: widget.movie.posterPath,
+                  child: Container(
+                    child: CachedNetworkImage(
+                      imageUrl: imagebaseULR + widget.movie.posterPath,
+                      width: Config().deviceWidth(context),
+                      // height: Config().deviceHeight(context) * 0.22,
+                      fit: BoxFit.fitWidth,
+                      placeholder: (context, url) => Lottie.asset(
+                          'assets/lottie/newsload.json',
+                          width: 80,
+                          reverse: false,
+                          repeat: false),
                     ),
-                    // Text(
-                    //   widget.m1.voteAverage.toString(),
-                    //   style: const TextStyle(
-                    //       fontSize: 16, fontWeight: FontWeight.w500),
-                    // ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-            RatingBarIndicator(
-              rating: widget.movie.voteAverage / 2,
-              unratedColor: Colors.grey.shade200,
-              itemBuilder: (context, index) => const Icon(
-                Icons.star,
-                color: Colors.amber,
-              ),
-              itemCount: 5,
-              itemSize: 26.0,
-              direction: Axis.horizontal,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  NumberSlideAnimation(
-                    number: (widget.movie.voteAverage).toInt().toString(),
-                    duration: const Duration(seconds: 2),
-                    curve: Curves.bounceIn,
-                    textStyle: const TextStyle(
-                        fontSize: 36.0, fontWeight: FontWeight.bold),
+                HeroWidget(
+                  tag: widget.movie.title,
+                  child: Container(
+                    width: Config().deviceWidth(context),
+                    // height: 200,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            widget.m1.title,
+                            style: const TextStyle(
+                                fontSize: 26, fontWeight: FontWeight.w600),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        // Text(
+                        //   widget.m1.voteAverage.toString(),
+                        //   style: const TextStyle(
+                        //       fontSize: 16, fontWeight: FontWeight.w500),
+                        // ),
+                      ],
+                    ),
                   ),
-                  const Text(
-                    ".",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                ),
+                RatingBarIndicator(
+                  rating: widget.movie.voteAverage / 2,
+                  unratedColor: Colors.grey.shade200,
+                  itemBuilder: (context, index) => const Icon(
+                    Icons.star,
+                    color: Colors.amber,
                   ),
-                  NumberSlideAnimation(
-                    number: ((widget.movie.voteAverage -
-                                widget.movie.voteAverage.toInt()) *
-                            100)
-                        .toInt()
-                        .toString(),
-                    duration: const Duration(seconds: 2),
-                    curve: Curves.bounceIn,
-                    textStyle: const TextStyle(
-                        fontSize: 36.0, fontWeight: FontWeight.bold),
-                  ),
-                  const Text(
-                    "  /  ",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-                  ),
-                  const Text(
-                    "10",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                  ),
-                ],
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(widget.movie.genres.length,
-                  (index) => chips(widget.movie.genres[index])),
-            ),
-            title("\" ${widget.movie.tagline} \""),
-            title("Overview"),
-            title(widget.movie.overview,
-                style:
-                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
-
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  itemCount: 5,
+                  itemSize: 26.0,
+                  direction: Axis.horizontal,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      infoUI(
-                        "Revenue",
-                        MoneyFormatter(
-                          amount: widget.movie.revenue == 0
-                              ? 10000000
-                              : widget.movie.revenue.toDouble(),
-                        ).output.compactSymbolOnLeft,
+                      NumberSlideAnimation(
+                        number: (widget.movie.voteAverage).toInt().toString(),
+                        duration: const Duration(seconds: 2),
+                        curve: Curves.bounceIn,
+                        textStyle: const TextStyle(
+                            fontSize: 36.0, fontWeight: FontWeight.w600),
                       ),
-                      infoUI(
-                        "Budget",
-                        MoneyFormatter(
-                          amount: widget.movie.budget.toDouble(),
-                        ).output.compactSymbolOnLeft,
+                      const Text(
+                        ".",
+                        style: TextStyle(
+                            fontSize: 32, fontWeight: FontWeight.w500),
+                      ),
+                      NumberSlideAnimation(
+                        number: ((widget.movie.voteAverage -
+                                    widget.movie.voteAverage.toInt()) *
+                                100)
+                            .toInt()
+                            .toString(),
+                        duration: const Duration(seconds: 2),
+                        curve: Curves.bounceIn,
+                        textStyle: const TextStyle(
+                            fontSize: 28.0, fontWeight: FontWeight.w600),
+                      ),
+                      const Text(
+                        "  /  ",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w500),
+                      ),
+                      const Text(
+                        "10",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                     ],
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(widget.movie.genres.length,
+                      (index) => chips(widget.movie.genres[index])),
+                ),
+                title("\" ${widget.movie.tagline} \""),
+                title("Overview"),
+                title(widget.movie.overview,
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.w400)),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
+                  child: Column(
                     children: [
-                      infoUI(
-                          "Release Date",
-                          formatDate(
-                              DateTime(1989, 2, 21), [d, ' ', M, '\' ', yy])),
-                      infoUI(
-                          "Runtime", widget.movie.runtime.toString() + " min"),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          infoUI(
+                            "Revenue",
+                            MoneyFormatter(
+                              amount: widget.movie.revenue == 0
+                                  ? 10000000
+                                  : widget.movie.revenue.toDouble(),
+                            ).output.compactSymbolOnLeft,
+                          ),
+                          infoUI(
+                            "Budget",
+                            MoneyFormatter(
+                              amount: widget.movie.budget.toDouble(),
+                            ).output.compactSymbolOnLeft,
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          infoUI(
+                              "Release Date",
+                              formatDate(DateTime(1989, 2, 21),
+                                  [d, ' ', M, '\' ', yy])),
+                          infoUI("Runtime",
+                              widget.movie.runtime.toString() + " min"),
+                        ],
+                      ),
                     ],
                   ),
-                ],
-              ),
+                ),
+                title("Production Companies"),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(
+                      widget.movie.productionCompanies.length, (index) {
+                    if (widget.movie.productionCompanies[index].logoPath !=
+                        null) {
+                      return productionCompany(
+                          widget.movie.productionCompanies[index]);
+                    }
+                    return const SizedBox();
+                  }),
+                ),
+              ],
             ),
-
-            //             "release_date": "1999-10-12",
-            // "revenue": 100853753,
-            // "runtime": 139,
-            title("Production Companies"),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(widget.movie.productionCompanies.length,
-                  (index) {
-                if (widget.movie.productionCompanies[index].logoPath != null) {
-                  return productionCompany(
-                      widget.movie.productionCompanies[index]);
-                }
-                return const SizedBox();
-              }),
-            ),
+            Positioned(
+                top: 10,
+                left: 20,
+                child: SafeArea(child: CustomBack(color: black))),
           ],
         ),
       ),
