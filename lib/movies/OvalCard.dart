@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:get/get.dart';
 import 'package:news_app/Models/f.dart';
 import 'package:news_app/constants/HeroWidget.dart';
 import 'package:news_app/constants/buttons.dart';
@@ -13,6 +14,7 @@ import 'package:number_slide_animation/number_slide_animation.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 import '../Models/MoviesModel.dart';
+import '../controllers/MovieController.dart';
 
 class OvalCard extends StatefulWidget {
   MoviesModel movie;
@@ -23,11 +25,13 @@ class OvalCard extends StatefulWidget {
 }
 
 class _OvalCardState extends State<OvalCard> {
+  final MovieController controller = Get.find();
   @override
   Widget build(BuildContext context) {
     return ZoomTapAnimation(
       end: 0.98,
       onTap: () {
+        controller.getMovieDetails(widget.movie.id.toString());
         Navigator.of(context).push(PageRouteBuilder(
             transitionDuration: Duration(milliseconds: 400),
             reverseTransitionDuration: Duration(milliseconds: 100),
@@ -38,7 +42,6 @@ class _OvalCardState extends State<OvalCard> {
               return FadeTransition(
                 opacity: curvedAnimation,
                 child: MovieDetailsScreen(
-                  movie: moviedetail,
                   m1: widget.movie,
                 ),
               );

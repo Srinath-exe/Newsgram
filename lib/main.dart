@@ -36,10 +36,9 @@ class MyApp extends StatelessWidget {
           },
         ),
       ),
-      home: MoviesMain(),
-      // MainPage(
-      //   index: 2,
-      // )
+      home: MainPage(
+        index: 2,
+      ),
     );
   }
 }

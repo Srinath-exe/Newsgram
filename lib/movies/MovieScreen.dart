@@ -47,6 +47,7 @@ class _SearchScreenState extends State<MovieScreen> {
             child: Padding(
           padding: const EdgeInsets.only(top: 0.0, bottom: 4),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(
                 height: 12,
@@ -66,10 +67,12 @@ class _SearchScreenState extends State<MovieScreen> {
               ),
               chips(),
               Expanded(
-                  child: GridView(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, childAspectRatio: 0.66),
-                children: newList.map((e) => MovieCard(movie: e)).toList(),
+                  child: Center(
+                child: GridView(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, childAspectRatio: 0.68),
+                  children: newList.map((e) => MovieCard(movie: e)).toList(),
+                ),
               )
 
                   // Obx(() =>
