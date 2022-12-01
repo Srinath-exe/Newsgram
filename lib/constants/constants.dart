@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 String BASEURL = " ";
 String APIKEY = "OTz3XRALgqmipUGBJvkyOx8Ivy4tDu3I";
@@ -31,5 +32,19 @@ class Nav {
         .push(MaterialPageRoute<void>(builder: (BuildContext context) {
       return child;
     }));
+  }
+}
+
+class NotFound extends StatelessWidget {
+  const NotFound({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: Config().deviceHeight(context) * 0.4,
+      child: Lottie.asset(
+        'assets/lottie/notFound.json',
+      ),
+    );
   }
 }

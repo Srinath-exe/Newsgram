@@ -9,6 +9,7 @@ import 'package:news_app/Repository/MovieRepo.dart';
 class MovieController extends GetxController {
   var isLoading = false.obs;
   var isSearch = false.obs;
+  var noSearchresult = false.obs;
   var isMovieDetailLoading = false.obs;
   final movieDetail = Rxn<MoviesDetailsModel>();
   var mainMovieList = <MoviesModel>[].obs;
@@ -54,6 +55,7 @@ class MovieController extends GetxController {
   }
 
   void showTopRelated(int id) {
+    noSearchresult.value = false;
     isLoading.value = true;
     switch (id) {
       case 0:
@@ -104,17 +106,23 @@ class MovieController extends GetxController {
   //   page.value = moviesList.value.length + 20;
   // }
 
-  // void searchMovies({required String query}) async {
-  //   isLoading.value = false;
-  //   if (query == "") {
-  //     isSearch.value = false;
-  //   } else {
-  //     isSearch.value = true;
-  //   }
-  //   var searchmovies = await movieRepo.searchMovie(search: query);
-  //   if (searchmovies != []) {
-  //     moviesList.value = searchmovies;
-  //     isLoading.value = true;
-  //   }
-  // }
+  void searchMovies({required String query}) async {
+    isLoading.value = true;
+    noSearchresult.value = false;
+    if (query == "") {
+      isSearch.value = false;
+      mainMovieList.value = topMoviesList;
+    } else {
+      isSearch.value = true;
+
+      var searchmovies =
+          await MovieDetailRepository().searchMovie(search: query);
+      log(searchmovies.toString());
+      if (searchmovies != []) {
+        mainMovieList.value = searchmovies;
+        isLoading.value = false;
+        isSearch.value = false;
+      }
+    }
+  }
 }

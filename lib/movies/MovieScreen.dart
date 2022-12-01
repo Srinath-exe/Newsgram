@@ -56,30 +56,34 @@ class _SearchScreenState extends State<MovieScreen> {
                 controller: searchController,
                 onSubmit: (s) {
                   print(s);
-                  // controller.searchMovies(query: s);
+                  controller.searchMovies(query: s);
                 },
                 onClose: () {
-                  // controller.searchMovies(query: "");
+                  controller.searchMovies(query: "");
                 },
               ),
               const SizedBox(
                 height: 20,
               ),
               chips(),
-              Expanded(
-                  child: Center(
-                child: Obx(() => GridView(
-                      padding: const EdgeInsets.symmetric(vertical: 20),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2, childAspectRatio: 0.68),
-                      children: controller.mainMovieList.isNotEmpty
-                          ? controller.mainMovieList
-                              .map((e) => MovieCard(movie: e))
-                              .toList()
-                          : List.generate(
-                              4, (index) => const MovieShimmerCard()),
-                    )),
+              Expanded(child: Center(
+                child: Obx(() {
+                  if (controller.noSearchresult.value == true) {
+                    return const NotFound();
+                  }
+                  ;
+                  return GridView(
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2, childAspectRatio: 0.68),
+                    children: controller.mainMovieList.isNotEmpty
+                        ? controller.mainMovieList
+                            .map((e) => MovieCard(movie: e))
+                            .toList()
+                        : List.generate(4, (index) => const MovieShimmerCard()),
+                  );
+                }),
               )),
             ],
           ),

@@ -117,28 +117,6 @@ class MovieRepository {
     }
   }
 
-  Future<List<MoviesModel>> searchMovie({required String search}) async {
-    final response = await API.get(
-        url:
-            'https://api.themoviedb.org/3/search/multi?api_key=${APIKEY}&language=en-US&query=${search}&page=1&include_adult=false');
-    var res = json.decode(response.body);
-    if (res["results"] == null) {
-      return [];
-    }
-    List<MoviesModel> lis = [];
-    for (int i = 0; i < 20; i++) {
-      if (res["results"][i]["media_type"] != "person") {
-        lis.add(MoviesModel.fromJson(res["results"][i]));
-      }
-    }
-
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      return lis;
-    } else {
-      return [];
-    }
-  }
-
 // sfadddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
 
   // Future<List<MovieModel>> searchMovie({required String search}) async {
