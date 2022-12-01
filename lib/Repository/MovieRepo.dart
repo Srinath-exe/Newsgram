@@ -10,68 +10,93 @@ import 'package:news_app/constants/constants.dart';
 import '../controllers/MovieController.dart';
 
 class MovieRepository {
-  final MovieController controller = Get.find();
+  // final MovieController controller = Get.put(MovieController());
 
   Future<List<MoviesModel>> getTopRatesMovie() async {
-    final response = await API.get(
-        url:
-            'https://api.themoviedb.org/3/movie/top_rated?api_key=${movieAPIKEY}');
+    try {
+      final response = await API.get(
+          url:
+              'https://api.themoviedb.org/3/movie/top_rated?api_key=${movieAPIKEY}');
 
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      var res = json.decode(response.body);
-      // log(res["results"].toString());
-      var movieList = moviesModelFromJson(res["results"]);
-      log(movieList.toString());
-      return movieList;
-    } else {
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        var res = json.decode(response.body);
+        var resp = json.encode(res["results"]);
+        var movieList = moviesModelFromJson(resp);
+        return movieList;
+      } else {
+        return [];
+      }
+    } catch (e) {
+      log("getTopRatesMovie error : $e");
+      if (e.toString() == "Connection reset by peer") {}
       return [];
     }
   }
 
   Future<List<MoviesModel>> getNowplayingMovie() async {
-    final response = await API.get(
-        url:
-            'https://api.themoviedb.org/3/movie/now_playing?api_key=${movieAPIKEY}');
+    try {
+      final response = await API.get(
+          url:
+              'https://api.themoviedb.org/3/movie/now_playing?api_key=${movieAPIKEY}');
 
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      var res = json.decode(response.body);
-      // log(res["results"].toString());
-      var movieList = moviesModelFromJson(res["results"]);
-      log(movieList.toString());
-      return movieList;
-    } else {
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        var res = json.decode(response.body);
+        // log(res["results"].toString());
+        var resp = json.encode(res["results"]);
+        var movieList = moviesModelFromJson(resp);
+        log(movieList.toString());
+        return movieList;
+      } else {
+        return [];
+      }
+    } catch (e) {
+      log("now_playing error : $e");
       return [];
     }
   }
 
   Future<List<MoviesModel>> getUpcomingMovie() async {
-    final response = await API.get(
-        url:
-            'https://api.themoviedb.org/3/movie/upcoming?api_key=${movieAPIKEY}');
+    try {
+      final response = await API.get(
+          url:
+              'https://api.themoviedb.org/3/movie/upcoming?api_key=${movieAPIKEY}');
 
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      var res = json.decode(response.body);
-      // log(res["results"].toString());
-      var movieList = moviesModelFromJson(res["results"]);
-      log(movieList.toString());
-      return movieList;
-    } else {
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        var res = json.decode(response.body);
+        var resp = json.encode(res["results"]);
+        var movieList = moviesModelFromJson(resp);
+        return movieList;
+      } else {
+        return [];
+      }
+    } catch (e) {
+      log("upcoming error : $e");
+      // controller.upcomingmoviesList.value =
+      //     await MovieRepository().getUpcomingMovie();
+
       return [];
     }
   }
 
   Future<List<MoviesModel>> getPopularMovie() async {
-    final response = await API.get(
-        url:
-            'https://api.themoviedb.org/3/movie/popular?api_key=${movieAPIKEY}');
+    try {
+      final response = await API.get(
+          url:
+              'https://api.themoviedb.org/3/movie/popular?api_key=${movieAPIKEY}');
 
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      var res = json.decode(response.body);
-      // log(res["results"].toString());
-      var movieList = moviesModelFromJson(res["results"]);
-      log(movieList.toString());
-      return movieList;
-    } else {
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        var res = json.decode(response.body);
+        // log(res["results"].toString());
+        var resp = json.encode(res["results"]);
+        var movieList = moviesModelFromJson(resp);
+        return movieList;
+      } else {
+        return [];
+      }
+    } catch (e) {
+      log("popular error : $e");
+      // controller.popularmoviesList.value =
+      //     await MovieRepository().getPopularMovie();
       return [];
     }
   }
@@ -84,32 +109,11 @@ class MovieRepository {
     if (response.statusCode == 200 || response.statusCode == 201) {
       var res = json.decode(response.body);
       // log(res["results"].toString());
-      var movieList = moviesModelFromJson(res["results"]);
-      log(movieList.toString());
+      var resp = json.encode(res["results"]);
+      var movieList = moviesModelFromJson(resp);
       return movieList;
     } else {
       return [];
-    }
-  }
-
-  Future<MoviesDetailsModel?> getMovieDetails(
-      {required String movie_id}) async {
-    try {
-      final response = await API.get(
-          url:
-              'https://api.themoviedb.org/3/movie/${movie_id}?api_key=${movieAPIKEY}');
-      log("Movie Detail Status : ${response.statusCode}");
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        var movieDetails = moviesDetailsModelFromJson(response.body);
-        log(movieDetails.toString());
-        return movieDetails;
-      } else {
-        return null;
-      }
-    } catch (e) {
-      log("Movie Detail ERROR : $e");
-      log("2nd req sent");
-      controller.getMovieDetails(movie_id);
     }
   }
 

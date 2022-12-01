@@ -68,42 +68,25 @@ class _SearchScreenState extends State<MovieScreen> {
               chips(),
               Expanded(
                   child: Center(
-                child: GridView(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, childAspectRatio: 0.68),
-                  children: newList.map((e) => MovieCard(movie: e)).toList(),
-                ),
-              )
-
-                  // Obx(() =>
-                  // GridView(
-                  //     controller: scrol,
-                  //     padding: const EdgeInsets.all(20),
-                  //     gridDelegate:
-                  //         const SliverGridDelegateWithFixedCrossAxisCount(
-                  //             crossAxisCount: 2, childAspectRatio: 0.66),
-                  //     children: List.generate(
-                  //         controller.isSearch.value
-                  //             ? controller.moviesList.length
-                  //             : controller.moviesList.length + 4, (index) {
-                  //       // if (index >= controller.moviesList.length &&
-                  //       //     controller.isSearch.value == false) {
-                  //       //   return const MovieShimmerCard();
-                  //       // }
-                  //       return CircleAvatar();
-                  //       // MovieCard(
-                  //       //   movie: controller.moviesList[index],
-                  //       // );
-                  //     }).toList()),
-
-                  // ),
-                  ),
+                child: Obx(() => GridView(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2, childAspectRatio: 0.68),
+                      children: controller.mainMovieList.isNotEmpty
+                          ? controller.mainMovieList
+                              .map((e) => MovieCard(movie: e))
+                              .toList()
+                          : List.generate(
+                              4, (index) => const MovieShimmerCard()),
+                    )),
+              )),
             ],
           ),
         )));
   }
 
-  int selected = 2;
+  int selected = 0;
   chips() {
     cells({required int id, required String title}) {
       return Padding(
@@ -112,8 +95,8 @@ class _SearchScreenState extends State<MovieScreen> {
           onTap: () {
             setState(() {
               selected = id;
+              controller.showTopRelated(id);
             });
-            log(selected.toString());
           },
           child: Chip(
             label: Padding(
@@ -137,12 +120,12 @@ class _SearchScreenState extends State<MovieScreen> {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
-          cells(id: 1, title: "Top Rated"),
-          cells(id: 2, title: "Popular"),
-          cells(id: 4, title: "In Theaters"),
+          cells(id: 0, title: "Top Rated"),
+          cells(id: 1, title: "Popular"),
+          cells(id: 2, title: "In Theaters"),
           cells(id: 3, title: "Upcoming"),
         ],
       ),

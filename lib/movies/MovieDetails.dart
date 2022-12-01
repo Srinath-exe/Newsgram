@@ -27,11 +27,14 @@ class MovieDetailsScreen extends StatefulWidget {
 
 class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
   final MovieController controller = Get.find();
+  int produtionCompanyCount = 0;
+  List<ProductionCompany> productionCompanieslist = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: white,
       body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(parent: ClampingScrollPhysics()),
         child: Stack(
           children: [
             Column(
@@ -131,18 +134,37 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                   ),
                 ),
                 Obx(() {
+                  int companyCount() {
+                    int count = 0;
+                    List.generate(
+                        controller.movieDetail.value!.productionCompanies
+                            .length, (index) {
+                      if (controller.movieDetail.value!
+                              .productionCompanies[index].logoPath !=
+                          null) {
+                        count++;
+                        productionCompanieslist.add(controller
+                            .movieDetail.value!.productionCompanies[index]);
+                      }
+                    });
+                    return count;
+                  }
+
                   if (controller.isMovieDetailLoading.value ||
                       controller.movieDetail.value == null) {
                     return CircularProgressIndicator();
                   }
                   return Column(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: List.generate(
-                            controller.movieDetail.value!.genres.length,
-                            (index) => chips(
-                                controller.movieDetail.value!.genres[index])),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: List.generate(
+                              controller.movieDetail.value!.genres.length,
+                              (index) => chips(
+                                  controller.movieDetail.value!.genres[index])),
+                        ),
                       ),
                       title("\" ${controller.movieDetail.value!.tagline} \""),
                       title("Overview"),
@@ -182,7 +204,9 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                               children: [
                                 infoUI(
                                     "Release Date",
-                                    formatDate(DateTime(1989, 2, 21),
+                                    formatDate(
+                                        controller
+                                            .movieDetail.value!.releaseDate,
                                         [d, ' ', M, '\' ', yy])),
                                 infoUI(
                                     "Runtime",
@@ -194,21 +218,27 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                           ],
                         ),
                       ),
-                      title("Production Companies"),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: List.generate(
-                            controller.movieDetail.value!.productionCompanies
-                                .length, (index) {
-                          if (controller.movieDetail.value!
-                                  .productionCompanies[index].logoPath !=
-                              null) {
-                            return productionCompany(controller
-                                .movieDetail.value!.productionCompanies[index]);
-                          }
-                          return const SizedBox();
-                        }),
-                      ),
+                      companyCount() > 0
+                          ? Column(
+                              children: [
+                                title("Production Companies"),
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: List.generate(
+                                        productionCompanieslist.length,
+                                        (index) {
+                                      return productionCompany(
+                                          productionCompanieslist[index]);
+
+                                      // return const SizedBox();
+                                    }),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Container(),
                     ],
                   );
                 }),
@@ -259,6 +289,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
+        width: Config().deviceWidth(context) * 0.3,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -268,7 +299,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                 imageUrl: imagebaseULR + comp.logoPath,
                 width: 60,
                 height: 60,
-                fit: BoxFit.fitWidth,
+                fit: BoxFit.contain,
                 placeholder: (context, url) => Lottie.asset(
                     'assets/lottie/newsload.json',
                     width: 80,
@@ -278,6 +309,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
             ),
             Text(
               comp.name,
+              textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
             ),
           ],

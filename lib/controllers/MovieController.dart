@@ -3,50 +3,87 @@ import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:news_app/Models/MovieDetailsModel.dart';
 import 'package:news_app/Models/MoviesModel.dart';
-import 'package:news_app/Models/ReviewsModel.dart';
+import 'package:news_app/Repository/MovieDetailRepo.dart';
 import 'package:news_app/Repository/MovieRepo.dart';
 
 class MovieController extends GetxController {
-  var isLoading = true.obs;
+  var isLoading = false.obs;
   var isSearch = false.obs;
   var isMovieDetailLoading = false.obs;
   final movieDetail = Rxn<MoviesDetailsModel>();
-  var moviesList = <MoviesModel>[].obs;
+  var mainMovieList = <MoviesModel>[].obs;
+  var topMoviesList = <MoviesModel>[].obs;
 
+  var popularmoviesList = <MoviesModel>[].obs;
+  var theaterMoviesList = <MoviesModel>[].obs;
+  var upcomingmoviesList = <MoviesModel>[].obs;
   var page = 20.obs;
+  MovieRepository movieRepo = MovieRepository();
+
   @override
   void onInit() {
+    fetchMovies();
     super.onInit();
-    // fetchTopMovies();
-    // fetchHomeMovies();
   }
 
   void getMovieDetails(String id) async {
     movieDetail.value = null;
     isMovieDetailLoading.value = true;
 
-    movieDetail.value = await MovieRepository().getMovieDetails(movie_id: id);
-    log("got Details");
+    movieDetail.value =
+        await MovieDetailRepository().getMovieDetails(movie_id: id);
     isMovieDetailLoading.value = false;
   }
 
-  void fetchTopMovies() async {
-    log("FETECHING STARTED");
-    isLoading.value = false;
+  void fetchMovies() async {
+    isLoading.value = true;
     isSearch.value = false;
-    var movies = await MovieRepository().getTopRatesMovie();
-    log("FETECHING ENDED");
+    var movies = await movieRepo.getTopRatesMovie();
     if (movies != []) {
-      moviesList.value = movies;
-      page.value++;
-      isLoading.value = true;
+      mainMovieList.value = movies;
+      topMoviesList.value = movies;
+
+      isLoading.value = false;
     }
+    log("getTopRatesMovie");
+
+    popularmoviesList.value = await movieRepo.getPopularMovie();
+    theaterMoviesList.value = await movieRepo.getNowplayingMovie();
+    upcomingmoviesList.value = await movieRepo.getUpcomingMovie();
+    log("FETCH COMPLETE");
+  }
+
+  void showTopRelated(int id) {
+    isLoading.value = true;
+    switch (id) {
+      case 0:
+        mainMovieList.value = topMoviesList;
+        break;
+      case 1:
+        mainMovieList.value = popularmoviesList;
+        break;
+      case 2:
+        mainMovieList.value = theaterMoviesList;
+        break;
+      case 3:
+        mainMovieList.value = upcomingmoviesList;
+        break;
+      default:
+        mainMovieList.value = topMoviesList;
+        break;
+    }
+    isLoading.value = false;
+  }
+
+  void fetchTopRated() async {
+    var movies = await movieRepo.getTopRatesMovie();
+    log(movies.toString());
   }
 
   // void fetchHomeMovies() async {
   //   isLoading.value = false;
   //   isSearch.value = false;
-  //   var movies = await MovieRepository().getMovie();
+  //   var movies = await movieRepo.getMovie();
   //   if (movies != []) {
   //     moviesList.value = movies;
   //     page.value++;
@@ -57,7 +94,7 @@ class MovieController extends GetxController {
   // void fetchMoreMovies() async {
   //   isLoading.value = false;
   //   isSearch.value = false;
-  //   var movies = await MovieRepository().getMovie(page: page.value);
+  //   var movies = await movieRepo.getMovie(page: page.value);
   //   if (movies != []) {
   //     moviesList.addAll(movies);
   //     moviesList.sentToStream;
@@ -74,7 +111,7 @@ class MovieController extends GetxController {
   //   } else {
   //     isSearch.value = true;
   //   }
-  //   var searchmovies = await MovieRepository().searchMovie(search: query);
+  //   var searchmovies = await movieRepo.searchMovie(search: query);
   //   if (searchmovies != []) {
   //     moviesList.value = searchmovies;
   //     isLoading.value = true;

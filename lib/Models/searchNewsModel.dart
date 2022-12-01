@@ -114,7 +114,7 @@ class SearchNewsArticleList {
         "pub_date": pubDate,
         "news_desk": newsDesk,
         "section_name": sectionName,
-        "subsection_name": subsectionName ?? "",
+        "subsection_name": subsectionName,
         "byline": byline.toJson(),
         "_id": id,
         "word_count": wordCount,
