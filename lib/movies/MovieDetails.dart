@@ -305,6 +305,9 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                     width: 80,
                     reverse: false,
                     repeat: false),
+                errorWidget: (context, url, error) {
+                  return const NotFound();
+                },
               ),
             ),
             Text(

@@ -1,5 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:news_app/constants/constants.dart';
+
+import '../controllers/MovieController.dart';
 
 class CustomTextField extends StatefulWidget {
   String name;
@@ -8,14 +13,14 @@ class CustomTextField extends StatefulWidget {
   bool? isPassword;
   FocusNode focus;
   Function(String) onSubmit;
-  void Function()? onClose;
+  void Function() onClose;
   CustomTextField(
       {Key? key,
       this.isPassword = false,
       required this.name,
       required this.focus,
       required this.icon,
-      this.onClose,
+      required this.onClose,
       required this.onSubmit,
       required this.controller})
       : super(key: key);
@@ -26,6 +31,7 @@ class CustomTextField extends StatefulWidget {
 
 class _CustomTextFieldState extends State<CustomTextField> {
   late bool _passwordVisible;
+  final MovieController controller = Get.find();
   @override
   void initState() {
     _passwordVisible = false;
@@ -73,9 +79,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
                     obscureText: _passwordVisible,
                     decoration: InputDecoration(
                       suffixIcon: IconButton(
-                          splashRadius: 10,
+                          splashRadius: 20,
                           onPressed: () {
-                            widget.onClose;
+                            controller.showTopRelated(0);
                             setState(() {
                               widget.controller.clear();
                               FocusManager.instance.primaryFocus?.unfocus();

@@ -59,7 +59,9 @@ class _SearchScreenState extends State<MovieScreen> {
                   controller.searchMovies(query: s);
                 },
                 onClose: () {
+                  log("message");
                   controller.searchMovies(query: "");
+                  controller.showTopRelated(0);
                 },
               ),
               const SizedBox(

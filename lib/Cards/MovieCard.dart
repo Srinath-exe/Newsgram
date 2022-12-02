@@ -33,11 +33,11 @@ class _MovieCardState extends State<MovieCard> {
         onTap: () {
           controller.getMovieDetails(widget.movie.id.toString());
           Navigator.of(context).push(PageRouteBuilder(
-              transitionDuration: Duration(milliseconds: 400),
-              reverseTransitionDuration: Duration(milliseconds: 100),
+              transitionDuration: const Duration(milliseconds: 400),
+              reverseTransitionDuration: const Duration(milliseconds: 100),
               pageBuilder: ((context, animation, secondaryAnimation) {
-                final curvedAnimation =
-                    CurvedAnimation(parent: animation, curve: Interval(0, 0.5));
+                final curvedAnimation = CurvedAnimation(
+                    parent: animation, curve: const Interval(0, 0.5));
 
                 return FadeTransition(
                   opacity: curvedAnimation,
@@ -72,6 +72,9 @@ class _MovieCardState extends State<MovieCard> {
                           width: 80,
                           reverse: false,
                           repeat: false),
+                      errorWidget: (context, url, error) {
+                        return const NotFound();
+                      },
                     ),
                   ),
                   Padding(
