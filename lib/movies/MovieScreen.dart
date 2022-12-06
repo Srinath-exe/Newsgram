@@ -3,14 +3,13 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:news_app/Cards/MovieCard.dart';
+import 'package:lottie/lottie.dart';
 import 'package:news_app/constants/constants.dart';
 import 'package:news_app/controllers/MovieController.dart';
+import 'package:news_app/movies/MovieCard.dart';
 import 'package:news_app/movies/movieSimmerCard.dart';
 import 'package:news_app/movies/searchBar.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
-
-import '../Models/f.dart';
 
 class MovieScreen extends StatefulWidget {
   const MovieScreen({Key? key}) : super(key: key);
@@ -22,74 +21,104 @@ class MovieScreen extends StatefulWidget {
 class _SearchScreenState extends State<MovieScreen> {
   final MovieController controller = Get.find();
 
-  ScrollController scrol = ScrollController()..addListener(() {});
+  ScrollController scrol = ScrollController();
   TextEditingController searchController = TextEditingController();
-  onend() {
-    scrol.addListener(() {
-      if (scrol.offset >= (scrol.position.maxScrollExtent - 400) &&
-          controller.isSearch.value == false) {
-        log("fetching More");
-        // controller.fetchMoreMovies();
-      }
-    });
-  }
 
   @override
   void initState() {
-    onend();
     super.initState();
   }
 
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: secondary,
-        body: SafeArea(
-            child: Padding(
-          padding: const EdgeInsets.only(top: 0.0, bottom: 4),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(
-                height: 12,
-              ),
-              CustomSearchBar(
-                controller: searchController,
-                onSubmit: (s) {
-                  print(s);
-                  controller.searchMovies(query: s);
-                },
-                onClose: () {
-                  log("message");
-                  controller.searchMovies(query: "");
-                  controller.showTopRelated(0);
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              chips(),
-              Expanded(child: Center(
-                child: Obx(() {
-                  if (controller.noSearchresult.value == true) {
-                    return const NotFound();
-                  }
-                  ;
-                  return GridView(
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2, childAspectRatio: 0.68),
-                    children: controller.mainMovieList.isNotEmpty
-                        ? controller.mainMovieList
-                            .map((e) => MovieCard(movie: e))
-                            .toList()
-                        : List.generate(4, (index) => const MovieShimmerCard()),
-                  );
-                }),
-              )),
-            ],
+        body: SingleChildScrollView(
+          child: SafeArea(
+              child: Padding(
+            padding: const EdgeInsets.only(top: 0.0, bottom: 4),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(
+                  height: 12,
+                ),
+                CustomSearchBar(
+                  controller: searchController,
+                  onSubmit: (s) {
+                    print(s);
+                    controller.searchMovies(query: s);
+                  },
+                  onClose: () {
+                    log("message");
+                    controller.searchMovies(query: "");
+                    controller.showTopRelated(0);
+                  },
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                chips(),
+                Container(child: Center(
+                  child: Obx(() {
+                    if (controller.noSearchresult.value == true) {
+                      return const NotFound();
+                    }
+                    if (controller.isLoading.value == false &&
+                        controller.noSearchresult.value == false &&
+                        controller.mainMovieList.isEmpty) {
+                      return retry();
+                    }
+                    return GridView(
+                      physics: const ClampingScrollPhysics(),
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2, childAspectRatio: 0.68),
+                      children: !controller.isLoading.value ||
+                              controller.mainMovieList.isNotEmpty
+                          ? controller.mainMovieList
+                              .map((e) => MovieCard(movie: e))
+                              .toList()
+                          : List.generate(
+                              4, (index) => const MovieShimmerCard()),
+                    );
+                  }),
+                )),
+              ],
+            ),
+          )),
+        ));
+  }
+
+  retry() {
+    return Container(
+      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        const Text(
+          "Connection reset by peer",
+          style: TextStyle(fontSize: 20),
+        ),
+        Lottie.asset(
+          'assets/lottie/error.json',
+        ),
+        Container(
+          width: 160,
+          height: 50,
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+          child: OutlinedButton(
+            child: const Text('Retry'),
+            style: OutlinedButton.styleFrom(
+              foregroundColor: black,
+              shape: BeveledRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+            ),
+            onPressed: () {
+              controller.retryMovie();
+            },
           ),
-        )));
+        )
+      ]),
+    );
   }
 
   int selected = 0;

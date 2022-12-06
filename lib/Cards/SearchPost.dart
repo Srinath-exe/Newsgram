@@ -1,8 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_slider/carousel_slider.dart';
-import 'package:flutter_carousel_slider/carousel_slider_indicators.dart';
-import 'package:flutter_carousel_slider/carousel_slider_transforms.dart';
 import 'package:lottie/lottie.dart';
 import 'package:news_app/Cards/widgets.dart';
 import 'package:news_app/Models/searchNewsModel.dart';
@@ -60,7 +58,7 @@ class _SearchPostState extends State<SearchPost> {
                                 color: black,
                                 image: DecorationImage(
                                     image: AssetImage(
-                                      imgs(tag: widget.news.sectionName),
+                                      imgs(tag: widget.news.sectionName!),
                                     ),
                                     fit: BoxFit.cover)),
                           ),
@@ -71,17 +69,17 @@ class _SearchPostState extends State<SearchPost> {
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Text(
-                                  capitalize(widget.news.sectionName),
+                                  capitalize(widget.news.sectionName!),
                                   style: const TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 20,
                                   ),
                                 ),
-                                widget.news.subsectionName.isEmpty ||
+                                widget.news.subsectionName!.isEmpty ||
                                         widget.news.subsectionName == "null"
                                     ? Container()
                                     : Text(
-                                        capitalize(widget.news.subsectionName),
+                                        capitalize(widget.news.subsectionName!),
                                         style: const TextStyle(
                                           fontWeight: FontWeight.w500,
                                           fontSize: 12,
@@ -94,7 +92,7 @@ class _SearchPostState extends State<SearchPost> {
                       ),
                       Text(
                         timeago.format(
-                          DateTime.parse(widget.news.pubDate),
+                          DateTime.parse(widget.news.pubDate!),
                         ),
                         style: TextStyle(color: black, fontSize: 13),
                       ),
@@ -131,9 +129,9 @@ class _SearchPostState extends State<SearchPost> {
                         //     initialPage: 0,
                         //   )
                         CachedNetworkImage(
-                      imageUrl: widget.news.multimedia[0].url == ""
-                          ? "https://www.nytimes.com/${widget.news.multimedia[1].url}"
-                          : "https://www.nytimes.com/${widget.news.multimedia[0].url}",
+                      imageUrl: widget.news.multimedia![0].url == ""
+                          ? "https://www.nytimes.com/${widget.news.multimedia![1].url}"
+                          : "https://www.nytimes.com/${widget.news.multimedia![0].url}",
                       fit: BoxFit.cover,
                       width: Config().deviceWidth(context) * 1,
                       placeholder: (context, url) => Lottie.asset(
@@ -147,7 +145,7 @@ class _SearchPostState extends State<SearchPost> {
                   padding: EdgeInsets.symmetric(
                       vertical: 4.0, horizontal: verpadding),
                   child: Text(
-                    widget.news.headline.main,
+                    widget.news.headline!.main,
                     style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 16,
@@ -158,7 +156,7 @@ class _SearchPostState extends State<SearchPost> {
                   padding: EdgeInsets.symmetric(
                       vertical: 4.0, horizontal: verpadding),
                   child: Text(
-                    widget.news.docAbstract,
+                    widget.news.docAbstract!,
                     style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 14,

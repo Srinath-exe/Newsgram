@@ -2,7 +2,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:news_app/Cards/HomeNewsCard.dart';
-import 'package:news_app/constants/constants.dart';
 import 'package:news_app/controllers/NewsController.dart';
 
 class HomeNewsCards extends StatefulWidget {
@@ -36,12 +35,12 @@ class _HomeNewsCardsState extends State<HomeNewsCards> {
                     aspectRatio: 3 / 3.2,
                     clipBehavior: Clip.none,
                     autoPlay: true,
-                    enableInfiniteScroll: false,
+                    enableInfiniteScroll: true,
                     autoPlayInterval: const Duration(seconds: 16),
-                    viewportFraction: 0.94),
+                    viewportFraction: 0.85),
                 itemBuilder: (context, itemIndex, realIndex) {
                   if (controller.homeNewsArticles == null) {
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   }
                   return HomeNewsCard(
                       news: check

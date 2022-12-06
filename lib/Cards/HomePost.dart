@@ -1,18 +1,14 @@
-import 'package:blur/blur.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_carousel_slider/carousel_slider.dart';
-import 'package:flutter_carousel_slider/carousel_slider_indicators.dart';
-import 'package:flutter_carousel_slider/carousel_slider_transforms.dart';
 import 'package:lottie/lottie.dart';
 import 'package:news_app/Cards/widgets.dart';
 import 'package:news_app/Models/NewsModel.dart';
 import 'package:news_app/constants/constants.dart';
 import 'package:news_app/story/model.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 class HomePost extends StatefulWidget {
   NewsArticleModel news;

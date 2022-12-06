@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
-import '../main.dart';
 
 class API {
   static Map<String, String>? headers = {
@@ -13,12 +12,15 @@ class API {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
   };
+  onCatch(Object e) {
+    log(e.toString());
+  }
 
-  static Future<Response> get({
-    required String url,
-    bool? logs,
-    Map<String, String>? headers1,
-  }) async {
+  static Future<Response?> get(
+      {required String url,
+      bool? logs,
+      Map<String, String>? headers1,
+      Function(Object)? onCatch}) async {
     try {
       logs ?? false ? log('url: $url') : null;
       var response =
@@ -27,9 +29,12 @@ class API {
       logs ?? false ? log('respose: ${response.body}') : null;
       if (response.statusCode == 401) {}
       return response;
-    } finally {
-      //TODO : Dialog box
-    }
+    } catch (e) {
+      if (onCatch != null) {
+        onCatch(e);
+      }
+      return null;
+    } finally {}
   }
 
   static Future<Response> post({
@@ -46,7 +51,6 @@ class API {
           body: body, headers: headers ?? postheaders);
       logs ?? false ? log('respose: ${response.statusCode}') : null;
       logs ?? false ? log('respose: ${response.body}') : null;
-      if (response.statusCode == 401) {}
       return response;
     } finally {
       //TODO : Dialog box

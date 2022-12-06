@@ -11,6 +11,8 @@ class MovieController extends GetxController {
   var isSearch = false.obs;
   var noSearchresult = false.obs;
   var isMovieDetailLoading = false.obs;
+  var hasSimilarMovie = false.obs;
+  var similarMovies = <MoviesModel>[].obs;
   final movieDetail = Rxn<MoviesDetailsModel>();
   var mainMovieList = <MoviesModel>[].obs;
   var topMoviesList = <MoviesModel>[].obs;
@@ -29,29 +31,52 @@ class MovieController extends GetxController {
 
   void getMovieDetails(String id) async {
     movieDetail.value = null;
+    hasSimilarMovie = false.obs;
+    similarMovies.value = [];
     isMovieDetailLoading.value = true;
+    int count = 0;
+    while (movieDetail.value == null) {
+      count++;
+      log(count.toString());
+      movieDetail.value =
+          await MovieDetailRepository().getMovieDetails(movie_id: id);
+    }
 
-    movieDetail.value =
-        await MovieDetailRepository().getMovieDetails(movie_id: id);
+    similarMovies.value = await movieRepo.getSimilarMovie(movie_id: id);
+
+    if (similarMovies.isNotEmpty) {
+      hasSimilarMovie = true.obs;
+    }
     isMovieDetailLoading.value = false;
   }
 
   void fetchMovies() async {
     isLoading.value = true;
     isSearch.value = false;
-    var movies = await movieRepo.getTopRatesMovie();
-    if (movies != []) {
-      mainMovieList.value = movies;
-      topMoviesList.value = movies;
+    int count = 0;
 
-      isLoading.value = false;
+    while (topMoviesList.isEmpty) {
+      count++;
+      topMoviesList.value = await movieRepo.getTopRatesMovie();
     }
-    log("getTopRatesMovie");
+    mainMovieList.value = topMoviesList;
 
-    popularmoviesList.value = await movieRepo.getPopularMovie();
-    theaterMoviesList.value = await movieRepo.getNowplayingMovie();
-    upcomingmoviesList.value = await movieRepo.getUpcomingMovie();
+    while (popularmoviesList.isEmpty) {
+      count++;
+      popularmoviesList.value = await movieRepo.getPopularMovie();
+    }
+    while (theaterMoviesList.isEmpty) {
+      count++;
+      theaterMoviesList.value = await movieRepo.getNowplayingMovie();
+    }
+    while (upcomingmoviesList.isEmpty) {
+      count++;
+      upcomingmoviesList.value = await movieRepo.getUpcomingMovie();
+    }
+    log("COUNT :  $count");
     log("FETCH COMPLETE");
+
+    isLoading.value = false;
   }
 
   void showTopRelated(int id) {
@@ -77,35 +102,6 @@ class MovieController extends GetxController {
     isLoading.value = false;
   }
 
-  void fetchTopRated() async {
-    var movies = await movieRepo.getTopRatesMovie();
-    log(movies.toString());
-  }
-
-  // void fetchHomeMovies() async {
-  //   isLoading.value = false;
-  //   isSearch.value = false;
-  //   var movies = await movieRepo.getMovie();
-  //   if (movies != []) {
-  //     moviesList.value = movies;
-  //     page.value++;
-  //     isLoading.value = true;
-  //   }
-  // }
-
-  // void fetchMoreMovies() async {
-  //   isLoading.value = false;
-  //   isSearch.value = false;
-  //   var movies = await movieRepo.getMovie(page: page.value);
-  //   if (movies != []) {
-  //     moviesList.addAll(movies);
-  //     moviesList.sentToStream;
-  //     isLoading.value = true;
-  //   }
-
-  //   page.value = moviesList.value.length + 20;
-  // }
-
   void searchMovies({required String query}) async {
     isLoading.value = true;
     noSearchresult.value = false;
@@ -123,6 +119,42 @@ class MovieController extends GetxController {
         isLoading.value = false;
         isSearch.value = false;
       }
+    }
+  }
+
+  void retryMovie() async {
+    isLoading.value = true;
+    if (topMoviesList.isEmpty) {
+      topMoviesList.value = await movieRepo.getTopRatesMovie();
+      log("topMoviesList");
+    }
+    if (popularmoviesList.isEmpty) {
+      popularmoviesList.value = await movieRepo.getPopularMovie();
+
+      log("popularmoviesList");
+    }
+    if (theaterMoviesList.isEmpty) {
+      theaterMoviesList.value = await movieRepo.getNowplayingMovie();
+
+      log("theaterMoviesList");
+    }
+    if (upcomingmoviesList.isEmpty) {
+      upcomingmoviesList.value = await movieRepo.getUpcomingMovie();
+      log("upcomingmoviesList");
+    }
+
+    isLoading.value = false;
+  }
+
+  void getSimilar(String id) async {
+    hasSimilarMovie = false.obs;
+    similarMovies.value = await movieRepo.getSimilarMovie(movie_id: id);
+    // while(similarMovies.isEmpty) {
+    //   similarMovies.value = await movieRepo.getUpcomingMovie();
+    // }
+    log(similarMovies.toString());
+    if (similarMovies.isNotEmpty) {
+      hasSimilarMovie = true.obs;
     }
   }
 }

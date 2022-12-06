@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:news_app/Models/NewsModel.dart';
-
 class TopicStoryNews {
   String title;
   String imgUrl;

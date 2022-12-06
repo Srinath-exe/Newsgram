@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/constants/constants.dart';
 
 class ThemeButton extends StatefulWidget {
   String text;

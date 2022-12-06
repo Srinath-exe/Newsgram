@@ -53,37 +53,37 @@ class SearchNewsArticle {
 
 class SearchNewsArticleList {
   SearchNewsArticleList({
-    required this.docAbstract,
-    required this.webUrl,
-    required this.snippet,
-    required this.leadParagraph,
-    required this.multimedia,
-    required this.headline,
-    required this.pubDate,
-    required this.newsDesk,
-    required this.sectionName,
-    required this.subsectionName,
-    required this.byline,
-    required this.id,
-    required this.wordCount,
-    required this.uri,
+     this.docAbstract,
+     this.webUrl,
+     this.snippet,
+     this.leadParagraph,
+     this.multimedia,
+     this.headline,
+     this.pubDate,
+     this.newsDesk,
+     this.sectionName,
+     this.subsectionName,
+     this.byline,
+     this.id,
+     this.wordCount,
+     this.uri,
   });
 
-  String docAbstract;
-  String webUrl;
-  String snippet;
-  String leadParagraph;
+  String? docAbstract;
+  String? webUrl;
+  String? snippet;
+  String? leadParagraph;
 
-  List<SearchNewsMultimedia> multimedia;
-  Headline headline;
-  String pubDate;
-  String newsDesk;
-  String sectionName;
-  String subsectionName;
-  Byline byline;
-  String id;
-  int wordCount;
-  String uri;
+  List<SearchNewsMultimedia>? multimedia;
+  Headline? headline;
+  String? pubDate;
+  String? newsDesk;
+  String? sectionName;
+  String? subsectionName;
+  Byline? byline;
+  String? id;
+  int? wordCount;
+  String? uri;
 
   factory SearchNewsArticleList.fromJson(Map<String, dynamic> json) =>
       SearchNewsArticleList(
@@ -109,13 +109,13 @@ class SearchNewsArticleList {
         "web_url": webUrl,
         "snippet": snippet,
         "lead_paragraph": leadParagraph,
-        "multimedia": List<dynamic>.from(multimedia.map((x) => x.toJson())),
-        "headline": headline.toJson(),
+        "multimedia": List<dynamic>.from(multimedia!.map((x) => x.toJson())),
+        "headline": headline!.toJson(),
         "pub_date": pubDate,
         "news_desk": newsDesk,
         "section_name": sectionName,
         "subsection_name": subsectionName,
-        "byline": byline.toJson(),
+        "byline": byline!.toJson(),
         "_id": id,
         "word_count": wordCount,
         "uri": uri,

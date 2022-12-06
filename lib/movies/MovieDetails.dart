@@ -5,15 +5,14 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:money_formatter/money_formatter.dart';
+import 'package:news_app/Models/MovieDetailsModel.dart';
 import 'package:news_app/Models/MoviesModel.dart';
-import 'package:news_app/Repository/MovieRepo.dart';
 import 'package:news_app/constants/HeroWidget.dart';
 import 'package:news_app/constants/buttons.dart';
 import 'package:news_app/constants/constants.dart';
 import 'package:news_app/controllers/MovieController.dart';
+import 'package:news_app/movies/MovieCard.dart';
 import 'package:number_slide_animation/number_slide_animation.dart';
-
-import '../Models/MovieDetailsModel.dart';
 
 class MovieDetailsScreen extends StatefulWidget {
   // MoviesDetailsModel movie;
@@ -34,7 +33,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
     return Scaffold(
       backgroundColor: white,
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(parent: ClampingScrollPhysics()),
+        physics: const BouncingScrollPhysics(parent: ClampingScrollPhysics()),
         child: Stack(
           children: [
             Column(
@@ -48,8 +47,8 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                       // height: Config().deviceHeight(context) * 0.22,
                       fit: BoxFit.fitWidth,
                       placeholder: (context, url) => Lottie.asset(
-                          'assets/lottie/newsload.json',
-                          width: 80,
+                          'assets/lottie/movieLoad.json',
+                          width: 120,
                           reverse: false,
                           repeat: false),
                     ),
@@ -137,22 +136,42 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                   int companyCount() {
                     int count = 0;
                     List.generate(
-                        controller.movieDetail.value!.productionCompanies
+                        controller.movieDetail.value!.productionCompanies!
                             .length, (index) {
                       if (controller.movieDetail.value!
-                              .productionCompanies[index].logoPath !=
+                              .productionCompanies![index].logoPath !=
                           null) {
                         count++;
                         productionCompanieslist.add(controller
-                            .movieDetail.value!.productionCompanies[index]);
+                            .movieDetail.value!.productionCompanies![index]);
                       }
                     });
                     return count;
                   }
 
-                  if (controller.isMovieDetailLoading.value ||
-                      controller.movieDetail.value == null) {
-                    return CircularProgressIndicator();
+                  if (controller.isMovieDetailLoading.value) {
+                    return CircularProgressIndicator(
+                      color: black,
+                    );
+                  }
+                  if (controller.movieDetail.value == null) {
+                    return Container(
+                      width: 160,
+                      height: 50,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20)),
+                      child: OutlinedButton(
+                        child: const Text('Retry'),
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: black,
+                          shape: BeveledRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                        ),
+                        onPressed: () {
+                          controller.getMovieDetails(widget.m1.id.toString());
+                        },
+                      ),
+                    );
                   }
                   return Column(
                     children: [
@@ -161,62 +180,88 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: List.generate(
-                              controller.movieDetail.value!.genres.length,
-                              (index) => chips(
-                                  controller.movieDetail.value!.genres[index])),
+                              controller.movieDetail.value!.genres!.length,
+                              (index) => chips(controller
+                                  .movieDetail.value!.genres![index])),
                         ),
                       ),
                       title("\" ${controller.movieDetail.value!.tagline} \""),
                       title("Overview"),
-                      title(controller.movieDetail.value!.overview,
+                      title(controller.movieDetail.value!.overview!,
                           style: const TextStyle(
                               fontSize: 16, fontWeight: FontWeight.w400)),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 8.0, horizontal: 20),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                infoUI(
-                                  "Revenue",
-                                  MoneyFormatter(
-                                    amount: controller
-                                                .movieDetail.value!.revenue ==
-                                            0
-                                        ? 10000000
-                                        : controller.movieDetail.value!.revenue
-                                            .toDouble(),
-                                  ).output.compactSymbolOnLeft,
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        height: 280,
+                        decoration: BoxDecoration(
+                            color: grey,
+                            image: const DecorationImage(
+                                image: AssetImage(
+                                  'assets/images/backdrop.png',
                                 ),
-                                infoUI(
-                                  "Budget",
-                                  MoneyFormatter(
-                                    amount: controller.movieDetail.value!.budget
-                                        .toDouble(),
-                                  ).output.compactSymbolOnLeft,
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                infoUI(
-                                    "Release Date",
-                                    formatDate(
-                                        controller
-                                            .movieDetail.value!.releaseDate,
-                                        [d, ' ', M, '\' ', yy])),
-                                infoUI(
-                                    "Runtime",
-                                    controller.movieDetail.value!.runtime
-                                            .toString() +
-                                        " min"),
-                              ],
-                            ),
-                          ],
+                                fit: BoxFit.cover)),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 30.0, horizontal: 20),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  const SizedBox(
+                                    width: 30,
+                                  ),
+                                  infoUI(
+                                    "Revenue",
+                                    MoneyFormatter(
+                                      amount: controller
+                                                  .movieDetail.value!.revenue ==
+                                              0
+                                          ? 10000000
+                                          : controller
+                                              .movieDetail.value!.revenue!
+                                              .toDouble(),
+                                    ).output.compactSymbolOnLeft,
+                                  ),
+                                  infoUI(
+                                    "Budget",
+                                    MoneyFormatter(
+                                      amount: controller
+                                          .movieDetail.value!.budget!
+                                          .toDouble(),
+                                    ).output.compactSymbolOnLeft,
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  const SizedBox(
+                                    width: 30,
+                                  ),
+                                  infoUI(
+                                      "Release Date",
+                                      formatDate(
+                                          controller
+                                              .movieDetail.value!.releaseDate!,
+                                          [d, ' ', M, '\' ', yy])),
+                                  infoUI("Runtime",
+                                      "${controller.movieDetail.value!.runtime} min"),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
+                      ),
+                      const SizedBox(
+                        height: 20,
                       ),
                       companyCount() > 0
                           ? Column(
@@ -239,6 +284,39 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                               ],
                             )
                           : Container(),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      Obx(() => controller.hasSimilarMovie.value
+                          ? Column(
+                              children: [
+                                title("Similar Movies"),
+                                Container(
+                                  // height: Config().deviceHeight(context),
+                                  child: GridView(
+                                      physics: ClampingScrollPhysics(),
+                                      shrinkWrap: true,
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 20),
+                                      gridDelegate:
+                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisCount: 2,
+                                              childAspectRatio: 0.68),
+                                      children: List.generate(
+                                          controller.similarMovies.length,
+                                          (index) => MovieCard(
+                                              movie: controller
+                                                  .similarMovies[index]))),
+                                )
+                                // Wrap(
+                                //     children: List.generate(
+                                //         controller.similarMovies.length,
+                                //         (index) => MovieCard(
+                                //             movie: controller
+                                //                 .similarMovies[index])))
+                              ],
+                            )
+                          : Container())
                     ],
                   );
                 }),
@@ -296,13 +374,13 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: CachedNetworkImage(
-                imageUrl: imagebaseULR + comp.logoPath,
+                imageUrl: imagebaseULR + comp.logoPath!,
                 width: 60,
                 height: 60,
                 fit: BoxFit.contain,
                 placeholder: (context, url) => Lottie.asset(
-                    'assets/lottie/newsload.json',
-                    width: 80,
+                    'assets/lottie/movieLoad.json',
+                    width: 120,
                     reverse: false,
                     repeat: false),
                 errorWidget: (context, url, error) {
@@ -311,7 +389,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
               ),
             ),
             Text(
-              comp.name,
+              comp.name!,
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
             ),
@@ -332,14 +410,16 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
           children: [
             Text(
               title,
-              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+              style: TextStyle(
+                  fontSize: 12, fontWeight: FontWeight.w500, color: grey),
             ),
             const SizedBox(
               height: 4,
             ),
             Text(
               data,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+              style: TextStyle(
+                  fontSize: 20, fontWeight: FontWeight.w600, color: grey),
             )
           ],
         ),

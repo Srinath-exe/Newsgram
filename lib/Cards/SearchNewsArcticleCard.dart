@@ -2,7 +2,6 @@ import 'package:blur/blur.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:news_app/Models/NewsModel.dart';
 import 'package:news_app/constants/constants.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
@@ -39,7 +38,7 @@ class _NewsArticleCardState extends State<SearchNewsArticleCard> {
                             borderRadius: BorderRadius.circular(20)),
                         child: CachedNetworkImage(
                           imageUrl:
-                              "https://www.nytimes.com/${widget.news.multimedia[0].url}",
+                              "https://www.nytimes.com/${widget.news.multimedia![0].url}",
                           fit: BoxFit.cover,
                           width: Config().deviceWidth(context) * 1,
                           height: Config().deviceHeight(context) * 0.2,
@@ -49,7 +48,7 @@ class _NewsArticleCardState extends State<SearchNewsArticleCard> {
                       child: Column(
                         children: [
                           Text(
-                            widget.news.headline.main,
+                            widget.news.headline!.main,
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 16,
@@ -67,7 +66,7 @@ class _NewsArticleCardState extends State<SearchNewsArticleCard> {
                       padding: const EdgeInsets.all(10.0),
                       child: Text(
                         timeago.format(
-                          DateTime.parse(widget.news.pubDate),
+                          DateTime.parse(widget.news.pubDate!),
                         ),
                         style: TextStyle(color: black, fontSize: 12),
                       ),

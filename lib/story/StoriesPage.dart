@@ -1,16 +1,9 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_slider/carousel_slider.dart';
 
-import 'package:flutter_carousel_slider/carousel_slider_indicators.dart';
-import 'package:flutter_carousel_slider/carousel_slider_transforms.dart';
 import 'package:get/get.dart';
 import 'package:news_app/Models/NewsModel.dart';
-import 'package:news_app/Models/f.dart';
 import 'package:news_app/story/TopicStory.dart';
-import 'package:news_app/story/model.dart';
-import 'package:news_app/story/tempStory.dart';
 
 import '../controllers/NewsController.dart';
 

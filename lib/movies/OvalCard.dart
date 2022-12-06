@@ -4,17 +4,14 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
-import 'package:news_app/Models/f.dart';
+import 'package:news_app/Models/MoviesModel.dart';
 import 'package:news_app/constants/HeroWidget.dart';
 import 'package:news_app/constants/buttons.dart';
 import 'package:news_app/constants/constants.dart';
-import 'package:news_app/constants/stars.dart';
+import 'package:news_app/controllers/MovieController.dart';
 import 'package:news_app/movies/MovieDetails.dart';
 import 'package:number_slide_animation/number_slide_animation.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
-
-import '../Models/MoviesModel.dart';
-import '../controllers/MovieController.dart';
 
 class OvalCard extends StatefulWidget {
   MoviesModel movie;
@@ -72,6 +69,25 @@ class _OvalCardState extends State<OvalCard> {
               Positioned(
                   bottom: -10,
                   child: ThemeButton(
+                    onTap: () {
+                      controller.getMovieDetails(widget.movie.id.toString());
+                      Navigator.of(context).push(PageRouteBuilder(
+                          transitionDuration: Duration(milliseconds: 400),
+                          reverseTransitionDuration:
+                              Duration(milliseconds: 100),
+                          pageBuilder:
+                              ((context, animation, secondaryAnimation) {
+                            final curvedAnimation = CurvedAnimation(
+                                parent: animation, curve: Interval(0, 0.5));
+
+                            return FadeTransition(
+                              opacity: curvedAnimation,
+                              child: MovieDetailsScreen(
+                                m1: widget.movie,
+                              ),
+                            );
+                          })));
+                    },
                     text: "See more",
                     height: 80,
                     borderRadius: 40,

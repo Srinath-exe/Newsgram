@@ -3,7 +3,6 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
 import 'package:news_app/Models/NewsModel.dart';
 import 'package:news_app/Models/searchNewsModel.dart';
 import 'package:news_app/Repository/Repository..dart';
@@ -14,8 +13,9 @@ class NewsRepository {
     final response = await API.get(
         url:
             'https://api.nytimes.com/svc/topstories/v2/${tag}.json?api-key=${APIKEY}');
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      var res = json.decode(response.body);
+
+    if (response != null) {
+      var res = json.decode(utf8.decode(response.bodyBytes));
       if (res["results"] == null) {
         return [];
       }
@@ -45,8 +45,8 @@ class NewsRepository {
         url:
             'https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${search}&api-key=${APIKEY}');
 
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      var res = json.decode(response.body);
+    if (response != null) {
+      var res = json.decode(utf8.decode(response.bodyBytes));
       if (res["response"]["docs"] == null) {
         return [];
       }

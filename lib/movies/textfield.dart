@@ -1,10 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:news_app/constants/constants.dart';
-
-import '../controllers/MovieController.dart';
+import 'package:news_app/controllers/MovieController.dart';
+import 'package:news_app/controllers/NewsController.dart';
 
 class CustomTextField extends StatefulWidget {
   String name;
@@ -32,6 +30,7 @@ class CustomTextField extends StatefulWidget {
 class _CustomTextFieldState extends State<CustomTextField> {
   late bool _passwordVisible;
   final MovieController controller = Get.find();
+  final NewsController newsController = Get.find();
   @override
   void initState() {
     _passwordVisible = false;
@@ -82,6 +81,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
                           splashRadius: 20,
                           onPressed: () {
                             controller.showTopRelated(0);
+                            newsController.isSearch.value = false;
+                            newsController.searchNewsArticles.value = [];
+
                             setState(() {
                               widget.controller.clear();
                               FocusManager.instance.primaryFocus?.unfocus();

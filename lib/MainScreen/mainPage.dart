@@ -4,8 +4,8 @@ import 'package:news_app/HomeScreen/HomeScreen.dart';
 import 'package:news_app/constants/constants.dart';
 import 'package:news_app/controllers/MovieController.dart';
 import 'package:news_app/controllers/NewsController.dart';
-import 'package:news_app/controllers/SearchNewsController.dart';
 import 'package:news_app/movies/MovieScreen.dart';
+import 'package:news_app/movies/MoviesMain.dart';
 import 'package:water_drop_nav_bar/water_drop_nav_bar.dart';
 
 import '../news/NewsScreen.dart';
@@ -31,6 +31,7 @@ class _MainPageState extends State<MainPage> {
     pages = [
       const HomeScreen(),
       const NewsScreen(),
+      const MoviesMain(),
       const MovieScreen(),
     ];
   }
@@ -66,6 +67,10 @@ class _MainPageState extends State<MainPage> {
           BarItem(
               filledIcon: Icons.article_rounded,
               outlinedIcon: Icons.newspaper_rounded),
+          BarItem(
+            filledIcon: Icons.movie_rounded,
+            outlinedIcon: Icons.movie_outlined,
+          ),
           BarItem(
             filledIcon: Icons.movie_rounded,
             outlinedIcon: Icons.movie_outlined,

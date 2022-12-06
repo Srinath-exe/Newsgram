@@ -1,28 +1,15 @@
-import 'dart:async';
-import 'dart:developer';
-
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:news_app/Cards/HomeNewsCard.dart';
 import 'package:news_app/Cards/HomePost.dart';
-import 'package:news_app/Cards/NewsArticleCard.dart';
-import 'package:news_app/Cards/SearchNewsArcticleCard.dart';
 import 'package:news_app/Cards/ShimmerPost.dart';
 import 'package:news_app/HomeScreen/widgets/SelectTopic.dart';
-import 'package:news_app/HomeScreen/widgets/homeShimmerCard.dart';
 import 'package:news_app/story/NewsStory.dart';
-import 'package:news_app/HomeScreen/widgets/homeNewscards.dart';
-import 'package:news_app/Models/NewsModel.dart';
-import 'package:news_app/Repository/NewsRepository.dart';
 
 import 'package:news_app/constants/constants.dart';
 import 'package:news_app/controllers/NewsController.dart';
-import 'package:shimmer/shimmer.dart';
-
-import '../Models/f.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

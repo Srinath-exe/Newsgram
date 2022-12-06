@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:news_app/constants/buttons.dart';
 import 'package:news_app/constants/constants.dart';
-import 'package:news_app/constants/outlined_button.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   OnBoardingScreen({Key? key}) : super(key: key);

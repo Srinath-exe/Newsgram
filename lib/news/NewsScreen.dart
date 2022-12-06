@@ -3,20 +3,13 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:news_app/Cards/MovieCard.dart';
-import 'package:news_app/Cards/NewsArticleCard.dart';
-import 'package:news_app/Cards/SearchNewsArcticleCard.dart';
 import 'package:news_app/Cards/SearchPost.dart';
 import 'package:news_app/Cards/ShimmerPost.dart';
 import 'package:news_app/HomeScreen/widgets/homeNewscards.dart';
 import 'package:news_app/HomeScreen/widgets/homeShimmerCard.dart';
 import 'package:news_app/constants/constants.dart';
-import 'package:news_app/controllers/MovieController.dart';
 import 'package:news_app/controllers/NewsController.dart';
 import 'package:news_app/movies/searchBar.dart';
-import 'package:news_app/news/NewsSimmerCard.dart';
-
-import '../Models/f.dart';
 
 class NewsScreen extends StatefulWidget {
   const NewsScreen({Key? key}) : super(key: key);

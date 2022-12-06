@@ -1,19 +1,12 @@
-import 'package:blur/blur.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:news_app/Models/MoviesModel.dart';
-import 'package:news_app/Models/ReviewsModel.dart';
-import 'package:news_app/Models/f.dart';
-import 'package:news_app/constants/HeroWidget.dart';
 import 'package:news_app/constants/constants.dart';
 import 'package:news_app/controllers/MovieController.dart';
 import 'package:news_app/movies/MovieDetails.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 class MovieCard extends StatefulWidget {
   MoviesModel movie;
@@ -68,8 +61,8 @@ class _MovieCardState extends State<MovieCard> {
                       width: Config().deviceWidth(context) * 0.4,
                       fit: BoxFit.cover,
                       placeholder: (context, url) => Lottie.asset(
-                          'assets/lottie/newsload.json',
-                          width: 80,
+                          'assets/lottie/movieLoad.json',
+                          width: 120,
                           reverse: false,
                           repeat: false),
                       errorWidget: (context, url, error) {
@@ -94,40 +87,44 @@ class _MovieCardState extends State<MovieCard> {
                 Positioned(
                     right: 0,
                     top: 0,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(120),
-                        gradient: LinearGradient(
-                          colors: [
-                            widget.movie.voteAverage > 5
-                                ? Colors.green
-                                : Colors.red.shade400,
-                            Colors.black
-                          ],
-                          begin: const Alignment(-1, -1),
-                          end: const Alignment(4, 2),
-                        ),
-                        // color: black,
-                        // border: Border.all(),
-                        // shape: BoxShape.circle,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: black,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              widget.movie.voteAverage.toString(),
-                              style: TextStyle(color: white),
+                    child: widget.movie.voteAverage != 0
+                        ? Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(120),
+                              gradient: LinearGradient(
+                                colors: [
+                                  widget.movie.voteAverage > 5
+                                      ? Colors.green
+                                      : Colors.red.shade400,
+                                  Colors.black
+                                ],
+                                begin: const Alignment(-1, -1),
+                                end: const Alignment(4, 2),
+                              ),
+                              // color: black,
+                              // border: Border.all(),
+                              // shape: BoxShape.circle,
                             ),
-                          ),
-                        ),
-                      ),
-                    ))
+                            child: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: black,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    widget.movie.voteAverage
+                                        .toPrecision(1)
+                                        .toString(),
+                                    style: TextStyle(color: white),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        : Container())
               ],
             ),
           ),

@@ -33,14 +33,14 @@ class NewsController extends GetxController {
   void getall() async {
     allnewsload.value = true;
 
-    // fetchTechNews();
-    // fetchScienceNews();
-    // fetchSportsNews();
-    // fetchWorldNews();
-    // fetchPoliticalNews();
-    // fetchTravelNews();
-    // fetchCarNews();
-    // fetchBusinessNews();
+    fetchTechNews();
+    fetchScienceNews();
+    fetchSportsNews();
+    fetchWorldNews();
+    fetchPoliticalNews();
+    fetchTravelNews();
+    fetchCarNews();
+    fetchBusinessNews();
   }
 
   void onreload() {
