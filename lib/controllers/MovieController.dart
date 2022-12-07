@@ -84,19 +84,19 @@ class MovieController extends GetxController {
     isLoading.value = true;
     switch (id) {
       case 0:
-        mainMovieList.value = topMoviesList;
-        break;
-      case 1:
-        mainMovieList.value = popularmoviesList;
-        break;
-      case 2:
         mainMovieList.value = theaterMoviesList;
         break;
-      case 3:
+      case 1:
         mainMovieList.value = upcomingmoviesList;
         break;
-      default:
+      case 2:
+        mainMovieList.value = popularmoviesList;
+        break;
+      case 3:
         mainMovieList.value = topMoviesList;
+        break;
+      default:
+        mainMovieList.value = theaterMoviesList;
         break;
     }
     isLoading.value = false;

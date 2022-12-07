@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
@@ -158,10 +159,10 @@ class _SearchScreenState extends State<MovieScreen> {
           const SizedBox(
             width: 10,
           ),
-          cells(id: 0, title: "Top Rated"),
-          cells(id: 1, title: "Popular"),
-          cells(id: 2, title: "In Theaters"),
-          cells(id: 3, title: "Upcoming"),
+          cells(id: 0, title: "In Theaters"),
+          cells(id: 1, title: "Upcoming"),
+          cells(id: 2, title: "Popular"),
+          cells(id: 3, title: "Top Rated"),
         ],
       ),
     );

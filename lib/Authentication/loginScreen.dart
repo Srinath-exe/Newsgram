@@ -43,24 +43,27 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Image.asset(
-                            'assets/images/logo.png',
-                            width: 100,
-                          ),
                           const SizedBox(
-                            height: 60,
+                            height: 40,
                           ),
                           Text(
-                            'Welcome to Yeeppi App',
+                            'Welcome to',
                             style: TextStyle(
-                                color: black,
-                                fontSize: 18,
+                                color: white,
+                                fontSize: 22,
                                 fontWeight: FontWeight.w600),
-                          )
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Image.asset(
+                            'assets/images/newsgram.png',
+                            width: Config().deviceWidth(context) * 0.7,
+                          ),
                         ],
                       ),
-                      Lottie.asset('assets/lottie/phone.json',
-                          width: Config().deviceWidth(context) * 0.7),
+                      Lottie.asset('assets/lottie/onboarding.json',
+                          width: Config().deviceWidth(context)),
                       SignInButton(
                         Buttons.google,
                         shape: RoundedRectangleBorder(
@@ -68,7 +71,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         padding: const EdgeInsets.all(12),
                         onPressed: () {
                           controller.googleLogin();
-                          // _showButtonPressDialog(context, 'Google (dark)');
                         },
                       ),
                       // ThemeButton(
