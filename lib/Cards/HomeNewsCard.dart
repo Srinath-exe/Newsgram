@@ -62,7 +62,7 @@ class _HomeNewsCardState extends State<HomeNewsCard> {
                         ]),
                     // borderRadius: BorderRadius.circular(50),
                   ),
-                  width: Config().deviceWidth(context) * 0.85,
+                  width: Config().deviceWidth(context) * 0.8,
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
@@ -82,14 +82,17 @@ class _HomeNewsCardState extends State<HomeNewsCard> {
                                   Text(
                                     capitalize(widget.news.section),
                                     style: mainstyle.copyWith(
-                                      fontSize: 16,
-                                    ),
+                                        fontSize: 15,
+                                        color: white,
+                                        fontWeight: FontWeight.w500),
                                   ),
                                   widget.news.subsection != ""
                                       ? Text(
                                           " •  ${capitalize(widget.news.subsection)}",
                                           style: mainstyle.copyWith(
-                                            fontSize: 16,
+                                            color: white,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 15,
                                           ),
                                         )
                                       : Container(),

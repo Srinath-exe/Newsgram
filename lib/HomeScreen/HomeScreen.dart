@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
@@ -97,11 +99,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   children: List.generate(
                                       controller.finLis.values
                                           .elementAt(controller.index.value)
-                                          .length,
-                                      (index) => HomePost(
-                                          news: controller.finLis.values
-                                              .elementAt(controller
-                                                  .index.value)[index])))),
+                                          .length, (index) {
+                                  print(controller.finLis.values
+                                      .elementAt(controller.index.value)[0]
+                                      .toJson());
+                                  return HomePost(
+                                      news: controller.finLis.values.elementAt(
+                                          controller.index.value)[index]);
+                                }))),
                       Obx(() => controller.homeNewsArticles.isNotEmpty
                           ? Column(
                               children: [

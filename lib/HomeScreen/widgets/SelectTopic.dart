@@ -26,59 +26,77 @@ class _SelectTopicState extends State<SelectTopic> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
         child: Obx(
-          () => controller.allnews.length < 8
-              ? Shimmer(
-                  gradient:
-                      LinearGradient(colors: [lightgrey, Colors.grey.shade300]),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: black,
-                    ),
-                    height: 80,
-                    width: Config().deviceWidth(context),
-                  ))
-              : ZoomTapAnimation(
-                  onTap: () {
-                    showDialog(
-                        barrierColor: white.withOpacity(0.9),
-                        context: context,
-                        builder: (BuildContext context) {
-                          return SliderList();
-                        });
-                  },
-                  child: Material(
-                    elevation: 2,
-                    borderRadius: BorderRadius.circular(20),
+          () =>
+              // controller.allnews.length < 8
+              // ? Shimmer(
+              //     gradient:
+              //         LinearGradient(colors: [lightgrey, Colors.grey.shade300]),
+              //     child: Container(
+              //       decoration: BoxDecoration(
+              //         borderRadius: BorderRadius.circular(20),
+              //         color: black,
+              //       ),
+              //       height: 80,
+              //       width: Config().deviceWidth(context),
+              //     )):
+              Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text("Feed",
+                  style: TextStyle(
+                      fontSize: 20, color: black, fontWeight: FontWeight.w600)),
+              ZoomTapAnimation(
+                onTap: () {
+                  showDialog(
+                      barrierColor: white.withOpacity(0.9),
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Transform.scale(scale: 0.8, child: SliderList());
+                      });
+                },
+                child: Material(
+                  elevation: 2,
+                  color: white,
+                  borderRadius: BorderRadius.circular(10),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 8.0, horizontal: 16),
                     child: Container(
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: black,
-                          image: DecorationImage(
-                              image: AssetImage(
-                                imgs(
-                                    tag: controller.finLis.keys
-                                        .elementAt(controller.index.value)),
-                              ),
-                              fit: BoxFit.cover)),
-                      height: 80,
-                      width: Config().deviceWidth(context),
+                        borderRadius: BorderRadius.circular(10),
+                        // color: black,
+                      ),
+                      // height: 80,
+                      // width: Config().deviceWidth(context),
                       alignment: Alignment.center,
-                      child: Text(
-                        controller.isDeafult.value
-                            ? "Top Articles"
-                            : capitalize(controller.finLis.keys
-                                .elementAt(controller.index.value)),
-                        style: TextStyle(
-                            fontSize: 40,
-                            color: white,
-                            fontWeight: FontWeight.w900),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            controller.isDeafult.value
+                                ? "Top Articles"
+                                : capitalize(controller.finLis.keys
+                                    .elementAt(controller.index.value)),
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: black,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          Icon(Icons.arrow_drop_down)
+                        ],
                       ),
                     ),
                   ),
                 ),
+              ),
+            ],
+          ),
         ));
   }
 }
@@ -149,3 +167,35 @@ class SliderListState extends State<SliderList> {
     );
   }
 }
+
+
+
+// Material(
+//                   elevation: 2,
+//                   borderRadius: BorderRadius.circular(20),
+//                   child: Container(
+//                     decoration: BoxDecoration(
+//                         borderRadius: BorderRadius.circular(20),
+//                         color: black,
+//                         image: DecorationImage(
+//                             image: AssetImage(
+//                               imgs(
+//                                   tag: controller.finLis.keys
+//                                       .elementAt(controller.index.value)),
+//                             ),
+//                             fit: BoxFit.cover)),
+//                     height: 80,
+//                     width: Config().deviceWidth(context),
+//                     alignment: Alignment.center,
+//                     child: Text(
+//                       controller.isDeafult.value
+//                           ? "Top Articles"
+//                           : capitalize(controller.finLis.keys
+//                               .elementAt(controller.index.value)),
+//                       style: TextStyle(
+//                           fontSize: 40,
+//                           color: white,
+//                           fontWeight: FontWeight.w900),
+//                     ),
+//                   ),
+//                 ),

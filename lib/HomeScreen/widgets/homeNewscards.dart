@@ -36,8 +36,10 @@ class _HomeNewsCardsState extends State<HomeNewsCards> {
                     clipBehavior: Clip.none,
                     autoPlay: true,
                     enableInfiniteScroll: true,
+                    enlargeCenterPage: true,
                     autoPlayInterval: const Duration(seconds: 16),
-                    viewportFraction: 0.85),
+                    enlargeStrategy: CenterPageEnlargeStrategy.height,
+                    viewportFraction: 0.8),
                 itemBuilder: (context, itemIndex, realIndex) {
                   if (controller.homeNewsArticles == null) {
                     return const CircularProgressIndicator();

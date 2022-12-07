@@ -17,6 +17,8 @@ class NewsController extends GetxController {
   var sports = <NewsArticleModel>[].obs;
   var science = <NewsArticleModel>[].obs;
   var world = <NewsArticleModel>[].obs;
+  var movie = <NewsArticleModel>[].obs;
+  var politics = <NewsArticleModel>[].obs;
   var allnews = <List<NewsArticleModel>>[].obs;
   Map<String, List<NewsArticleModel>> finLis = {"sample": []};
   var isSearchLoading = true.obs;
@@ -79,75 +81,73 @@ class NewsController extends GetxController {
 
   void fetchHomeNews() async {
     isLoading.value = true;
-    var news = await NewsRepository().getNews(tag: "home");
-    if (news != []) {
-      homeNewsArticles.value = news;
-      // finLis["home"] = news;
+
+    while (homeNewsArticles.isEmpty) {
+      homeNewsArticles.value = await NewsRepository().getNews(tag: "home");
     }
+
     isLoading.value = false;
   }
 
   void fetchTechNews() async {
-    var news = await NewsRepository().getNews(tag: "technology");
-    if (news != []) {
-      technology.value = news;
-      allnews.add(news);
-      finLis["technology"] = news;
-
-      log("technology got it ");
+    while (technology.isEmpty) {
+      technology.value = await NewsRepository().getNews(tag: "technology");
     }
+
+    allnews.add(technology.value);
+    finLis["technology"] = technology.value;
+    log("technology got it ");
   }
 
   void fetchScienceNews() async {
-    var news = await NewsRepository().getNews(tag: "science");
-    if (news != []) {
-      science.value = news;
-      allnews.add(news);
-      finLis["science"] = news;
-      log("science got it ");
+    while (science.isEmpty) {
+      science.value = await NewsRepository().getNews(tag: "science");
     }
+    allnews.add(science);
+    finLis["science"] = science;
+    log("science got it ");
   }
 
   void fetchSportsNews() async {
-    var news = await NewsRepository().getNews(tag: "sports");
-    if (news != []) {
-      sports.value = news;
-      allnews.add(news);
-      finLis["sports"] = news;
-      log("sports got it ");
+    while (sports.isEmpty) {
+      sports.value = await NewsRepository().getNews(tag: "sports");
     }
+    allnews.add(sports);
+    finLis["sports"] = sports;
+    log("sports got it ");
   }
 
   void fetchWorldNews() async {
     isworld.value = true;
-    var news = await NewsRepository().getNews(tag: "world");
-    if (news != []) {
-      world.value = news;
-      allnews.add(news);
-      finLis["world"] = news;
-      log("World got it ");
-      isworld.value = false;
+    while (world.isEmpty) {
+      world.value = await NewsRepository().getNews(tag: "world");
     }
+
+    allnews.add(world);
+    finLis["world"] = world;
+    log("World got it ");
+    log(world.value[0].toString());
+    isworld.value = false;
   }
 
   void fetchMoviesNews() async {
-    var news = await NewsRepository().getNews(tag: "movies");
-    if (news != []) {
-      world.value = news;
-      allnews.add(news);
-      finLis["movies"] = news;
-      log("movies got it ");
+    while (movie.isEmpty) {
+      movie.value = await NewsRepository().getNews(tag: "movies");
     }
+
+    allnews.add(movie);
+    finLis["movies"] = movie;
+    log("movies got it ");
   }
 
   void fetchPoliticalNews() async {
-    var news = await NewsRepository().getNews(tag: "politics");
-    if (news != []) {
-      world.value = news;
-      allnews.add(news);
-      finLis["politics"] = news;
-      log("politics got it ");
+    while (politics.isEmpty) {
+      politics.value = await NewsRepository().getNews(tag: "politics");
     }
+
+    allnews.add(politics);
+    finLis["politics"] = politics;
+    log("politics got it ");
   }
 
   void fetchTravelNews() async {
@@ -161,23 +161,25 @@ class NewsController extends GetxController {
   }
 
   void fetchCarNews() async {
-    var news = await NewsRepository().getNews(tag: "automobiles");
-    if (news != []) {
-      world.value = news;
-      allnews.add(news);
-      finLis["automobiles"] = news;
-      log("automobile got it ");
+    List<NewsArticleModel> news = [];
+    while (news.isEmpty) {
+      news = await NewsRepository().getNews(tag: "automobiles");
     }
+
+    allnews.add(news);
+    finLis["automobiles"] = news;
+    log("automobile got it ");
   }
 
   void fetchBusinessNews() async {
-    var news = await NewsRepository().getNews(tag: "business");
-    if (news != []) {
-      world.value = news;
-      allnews.add(news);
-      finLis["business"] = news;
-
-      log("business got it ");
+    List<NewsArticleModel> news = [];
+    while (news.isEmpty) {
+      news = await NewsRepository().getNews(tag: "business");
     }
+
+    allnews.add(news);
+    finLis["business"] = news;
+
+    log("business got it ");
   }
 }

@@ -68,8 +68,8 @@ class _MainPageState extends State<MainPage> {
               filledIcon: Icons.article_rounded,
               outlinedIcon: Icons.newspaper_rounded),
           BarItem(
-            filledIcon: Icons.movie_rounded,
-            outlinedIcon: Icons.movie_outlined,
+            filledIcon: Icons.view_carousel_rounded,
+            outlinedIcon: Icons.view_carousel_outlined,
           ),
           BarItem(
             filledIcon: Icons.movie_rounded,
