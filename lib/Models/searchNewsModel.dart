@@ -8,14 +8,14 @@ String searchNewsModelToJson(SearchNewsModel data) =>
 
 class SearchNewsModel {
   SearchNewsModel({
-    required this.status,
-    required this.copyright,
-    required this.searchNewsArticle,
+    this.status,
+    this.copyright,
+    this.searchNewsArticle,
   });
 
-  String status;
-  String copyright;
-  SearchNewsArticle searchNewsArticle;
+  String? status;
+  String? copyright;
+  SearchNewsArticle? searchNewsArticle;
 
   factory SearchNewsModel.fromJson(Map<String, dynamic> json) =>
       SearchNewsModel(
@@ -28,16 +28,16 @@ class SearchNewsModel {
   Map<String, dynamic> toJson() => {
         "status": status,
         "copyright": copyright,
-        "searchNewsArticle": searchNewsArticle.toJson(),
+        "searchNewsArticle": searchNewsArticle!.toJson(),
       };
 }
 
 class SearchNewsArticle {
   SearchNewsArticle({
-    required this.searchNewsArticleList,
+    this.searchNewsArticleList,
   });
 
-  List<SearchNewsArticleList> searchNewsArticleList;
+  List<SearchNewsArticleList>? searchNewsArticleList;
 
   factory SearchNewsArticle.fromJson(Map<String, dynamic> json) =>
       SearchNewsArticle(
@@ -47,26 +47,26 @@ class SearchNewsArticle {
 
   Map<String, dynamic> toJson() => {
         "docs":
-            List<dynamic>.from(searchNewsArticleList.map((x) => x.toJson())),
+            List<dynamic>.from(searchNewsArticleList!.map((x) => x.toJson())),
       };
 }
 
 class SearchNewsArticleList {
   SearchNewsArticleList({
-     this.docAbstract,
-     this.webUrl,
-     this.snippet,
-     this.leadParagraph,
-     this.multimedia,
-     this.headline,
-     this.pubDate,
-     this.newsDesk,
-     this.sectionName,
-     this.subsectionName,
-     this.byline,
-     this.id,
-     this.wordCount,
-     this.uri,
+    this.docAbstract,
+    this.webUrl,
+    this.snippet,
+    this.leadParagraph,
+    this.multimedia,
+    this.headline,
+    this.pubDate,
+    this.newsDesk,
+    this.sectionName,
+    this.subsectionName,
+    this.byline,
+    this.id,
+    this.wordCount,
+    this.uri,
   });
 
   String? docAbstract;
@@ -124,10 +124,10 @@ class SearchNewsArticleList {
 
 class Byline {
   Byline({
-    required this.original,
+    this.original,
   });
 
-  String original;
+  String? original;
 
   factory Byline.fromJson(Map<String, dynamic> json) => Byline(
         original: json["original"],
@@ -140,12 +140,12 @@ class Byline {
 
 class Headline {
   Headline({
-    required this.main,
-    required this.printHeadline,
+    this.main,
+    this.printHeadline,
   });
 
-  String main;
-  String printHeadline;
+  String? main;
+  String? printHeadline;
 
   factory Headline.fromJson(Map<String, dynamic> json) => Headline(
         main: json["main"],
@@ -160,24 +160,24 @@ class Headline {
 
 class SearchNewsMultimedia {
   SearchNewsMultimedia({
-    required this.rank,
-    required this.caption,
-    required this.url,
-    required this.type,
-    required this.height,
-    required this.width,
-    required this.cropName,
+    this.rank,
+    this.caption,
+    this.url,
+    this.type,
+    this.height,
+    this.width,
+    this.cropName,
   });
 
-  int rank;
+  int? rank;
 
-  dynamic caption;
-  dynamic credit;
-  String type;
-  String url;
-  int height;
-  int width;
-  String cropName;
+  dynamic? caption;
+  dynamic? credit;
+  String? type;
+  String? url;
+  int? height;
+  int? width;
+  String? cropName;
 
   factory SearchNewsMultimedia.fromJson(Map<String, dynamic> json) =>
       SearchNewsMultimedia(

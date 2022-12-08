@@ -48,7 +48,7 @@ class _NewsArticleCardState extends State<SearchNewsArticleCard> {
                       child: Column(
                         children: [
                           Text(
-                            widget.news.headline!.main,
+                            widget.news.headline!.main!,
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 16,

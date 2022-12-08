@@ -145,7 +145,7 @@ class _SearchPostState extends State<SearchPost> {
                   padding: EdgeInsets.symmetric(
                       vertical: 4.0, horizontal: verpadding),
                   child: Text(
-                    widget.news.headline!.main,
+                    widget.news.headline!.main!,
                     style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 16,
