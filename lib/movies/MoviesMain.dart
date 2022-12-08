@@ -17,6 +17,7 @@ class _MoviesMainState extends State<MoviesMain> {
   final MovieController controller = Get.find();
   CarouselController carouselController = new CarouselController();
   int curr = 0;
+  int carouselIndex = 0;
   @override
   void initState() {
     super.initState();
@@ -81,10 +82,12 @@ class _MoviesMainState extends State<MoviesMain> {
               //       color: white,
               //     ))),
               Positioned(
+                top: 100,
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 40.0),
                   child: SizedBox(
                     height: 600,
+                    width: Config().deviceWidth(context),
                     child: CarouselSlider(
                       carouselController: carouselController,
                       options: CarouselOptions(
@@ -100,17 +103,59 @@ class _MoviesMainState extends State<MoviesMain> {
                           autoPlay: true,
                           enlargeCenterPage: true,
                           enlargeStrategy: CenterPageEnlargeStrategy.scale,
-                          viewportFraction: 0.8),
+                          viewportFraction: 0.78),
                       items: List.generate(
-                          controller.mainMovieList.length,
-                          (index) =>
-                              OvalCard(movie: controller.topMoviesList[index])),
+                          controller.carouselMoviesList.length,
+                          (index) => OvalCard(
+                              movie: controller.carouselMoviesList[index])),
                     ),
                   ),
                 ),
               ),
+              Positioned(
+                  child: Container(
+                width: Config().deviceWidth(context),
+                height: 50,
+                color: white,
+                child: CarouselSlider(
+                  items: [
+                    cells(0, "In Theaters"),
+                    cells(1, "Upcoming"),
+                    cells(2, "Popular"),
+                    cells(3, "Top Rated"),
+                  ],
+                  options: CarouselOptions(
+                      autoPlayAnimationDuration:
+                          const Duration(milliseconds: 2000),
+                      onPageChanged: (i, r) {
+                        setState(() {
+                          carouselIndex = i;
+                        });
+                        controller.showCarousel(i);
+                      },
+                      height: 50.0,
+                      clipBehavior: Clip.none,
+                      enlargeCenterPage: true,
+                      enlargeStrategy: CenterPageEnlargeStrategy.scale,
+                      viewportFraction: 0.3),
+                ),
+              )),
+              const Positioned(child: Icon(Icons.arrow_drop_up))
             ],
           ),
         )));
+  }
+
+  cells(int index, String s) {
+    return Column(
+      children: [
+        Text(
+          s,
+          style: carouselIndex == index
+              ? const TextStyle(fontSize: 20, fontWeight: FontWeight.w600)
+              : const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+        ),
+      ],
+    );
   }
 }

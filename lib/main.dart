@@ -59,7 +59,11 @@ class _MyAppState extends State<MyApp> {
           },
         ),
       ),
-      home: isLogin ? MainPage() : OnBoardingScreen(),
+      home: isLogin
+          ? MainPage(
+              index: 2,
+            )
+          : OnBoardingScreen(),
     );
   }
 }

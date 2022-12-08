@@ -354,6 +354,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
         children: [
           Text(
             txt,
+            textAlign: TextAlign.center,
             style: style == null
                 ? const TextStyle(fontSize: 18, fontWeight: FontWeight.w600)
                 : style,

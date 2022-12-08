@@ -16,6 +16,7 @@ class MovieController extends GetxController {
   final movieDetail = Rxn<MoviesDetailsModel>();
   var mainMovieList = <MoviesModel>[].obs;
   var topMoviesList = <MoviesModel>[].obs;
+  var carouselMoviesList = <MoviesModel>[].obs;
 
   var popularmoviesList = <MoviesModel>[].obs;
   var theaterMoviesList = <MoviesModel>[].obs;
@@ -54,21 +55,22 @@ class MovieController extends GetxController {
     isLoading.value = true;
     isSearch.value = false;
     int count = 0;
-
+    while (theaterMoviesList.isEmpty) {
+      count++;
+      theaterMoviesList.value = await movieRepo.getNowplayingMovie();
+    }
+    mainMovieList.value = theaterMoviesList;
+    carouselMoviesList.value = theaterMoviesList;
     while (topMoviesList.isEmpty) {
       count++;
       topMoviesList.value = await movieRepo.getTopRatesMovie();
     }
-    mainMovieList.value = topMoviesList;
 
     while (popularmoviesList.isEmpty) {
       count++;
       popularmoviesList.value = await movieRepo.getPopularMovie();
     }
-    while (theaterMoviesList.isEmpty) {
-      count++;
-      theaterMoviesList.value = await movieRepo.getNowplayingMovie();
-    }
+
     while (upcomingmoviesList.isEmpty) {
       count++;
       upcomingmoviesList.value = await movieRepo.getUpcomingMovie();
@@ -97,6 +99,29 @@ class MovieController extends GetxController {
         break;
       default:
         mainMovieList.value = theaterMoviesList;
+        break;
+    }
+    isLoading.value = false;
+  }
+
+  void showCarousel(int id) {
+    noSearchresult.value = false;
+    isLoading.value = true;
+    switch (id) {
+      case 0:
+        carouselMoviesList.value = theaterMoviesList;
+        break;
+      case 1:
+        carouselMoviesList.value = upcomingmoviesList;
+        break;
+      case 2:
+        carouselMoviesList.value = popularmoviesList;
+        break;
+      case 3:
+        carouselMoviesList.value = topMoviesList;
+        break;
+      default:
+        carouselMoviesList.value = theaterMoviesList;
         break;
     }
     isLoading.value = false;

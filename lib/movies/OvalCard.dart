@@ -45,7 +45,7 @@ class _OvalCardState extends State<OvalCard> {
             })));
       },
       child: Material(
-        elevation: 40,
+        elevation: 30,
         borderRadius: BorderRadius.circular(200),
         child: Container(
           // height: 600,
