@@ -12,8 +12,10 @@ void main() async {
   await Firebase.initializeApp();
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+  ));
   runApp(const MyApp());
 }
 
@@ -59,11 +61,7 @@ class _MyAppState extends State<MyApp> {
           },
         ),
       ),
-      home: isLogin
-          ? MainPage(
-              index: 2,
-            )
-          : OnBoardingScreen(),
+      home: isLogin ? MainPage() : OnBoardingScreen(),
     );
   }
 }

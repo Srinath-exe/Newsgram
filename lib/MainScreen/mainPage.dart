@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:news_app/HomeScreen/HomeScreen.dart';
 import 'package:news_app/constants/constants.dart';
@@ -45,14 +46,18 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        height: Config().deviceHeight(context),
-        child: pages[currentindex],
+      body: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.dark,
+        child: Container(
+          height: Config().deviceHeight(context),
+          child: pages[currentindex],
+        ),
       ),
       bottomNavigationBar: WaterDropNavBar(
         backgroundColor: black,
         bottomPadding: 20,
         waterDropColor: secondary,
+        iconSize: 28,
         onItemSelected: (int index) {
           setState(() {
             currentindex = index;
@@ -88,7 +93,7 @@ BottomNavigationBarItem navItem({
 }) {
   return BottomNavigationBarItem(
     icon: Container(
-      height: 40,
+      height: 10,
       child: Stack(
         clipBehavior: Clip.none,
         alignment: AlignmentDirectional.topCenter,

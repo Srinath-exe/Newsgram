@@ -39,7 +39,8 @@ class _MoviesMainState extends State<MoviesMain> {
                       switchInCurve: Curves.easeInOut,
                       duration: const Duration(milliseconds: 200),
                       child: Container(
-                        key: Key(controller.mainMovieList[curr].id.toString()),
+                        key: Key(
+                            controller.carouselMoviesList[curr].id.toString()),
                         width: Config().deviceWidth(context),
                         height: Config().deviceHeight(context) * 0.6,
                         decoration: BoxDecoration(
@@ -47,7 +48,8 @@ class _MoviesMainState extends State<MoviesMain> {
                           fit: BoxFit.fitWidth,
                           image: CachedNetworkImageProvider(
                             imagebaseULR +
-                                controller.topMoviesList[curr].backdropPath!,
+                                controller
+                                    .carouselMoviesList[curr].backdropPath!,
                             errorListener: () {},
                           ),
                         )),
@@ -101,6 +103,7 @@ class _MoviesMainState extends State<MoviesMain> {
                           height: 600.0,
                           clipBehavior: Clip.none,
                           autoPlay: true,
+                          enableInfiniteScroll: true,
                           enlargeCenterPage: true,
                           enlargeStrategy: CenterPageEnlargeStrategy.scale,
                           viewportFraction: 0.78),
@@ -135,6 +138,7 @@ class _MoviesMainState extends State<MoviesMain> {
                       },
                       height: 50.0,
                       clipBehavior: Clip.none,
+                      enableInfiniteScroll: true,
                       enlargeCenterPage: true,
                       enlargeStrategy: CenterPageEnlargeStrategy.scale,
                       viewportFraction: 0.3),
