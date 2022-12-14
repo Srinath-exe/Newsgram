@@ -99,8 +99,8 @@ BottomNavigationBarItem navItem({
         alignment: AlignmentDirectional.topCenter,
         children: [
           Column(
-            children: [
-              const SizedBox(
+            children: const [
+              SizedBox(
                 height: 10,
               ),
               // SvgIcon(
