@@ -60,24 +60,24 @@ class _SearchScreenState extends State<NewsScreen> {
               const SizedBox(
                 height: 20,
               ),
-              Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 10.0, horizontal: 24),
-                  child: ListTile(
-                    onTap: () {
-                      Nav().goTo(const ContactInfo(), context);
-                    },
-                    leading: Image.asset(
-                      "assets/images/nylogo.jpg",
-                      width: 60,
-                      height: 60,
-                    ),
-                    trailing: const Icon(Icons.arrow_forward_ios_rounded),
-                    title: const Text("News Soucre"),
-                    shape: RoundedRectangleBorder(
-                        side: const BorderSide(width: 0.1),
-                        borderRadius: BorderRadius.circular(20)),
-                  )),
+              // Padding(
+              //     padding: const EdgeInsets.symmetric(
+              //         vertical: 10.0, horizontal: 24),
+              //     child: ListTile(
+              //       onTap: () {
+              //         Nav().goTo(const ContactInfo(), context);
+              //       },
+              //       leading: Image.asset(
+              //         "assets/images/ny-times-logo.jpg",
+              //         width: 60,
+              //         height: 60,
+              //       ),
+              //       trailing: const Icon(Icons.arrow_forward_ios_rounded),
+              //       title: const Text("News Soucre"),
+              //       shape: RoundedRectangleBorder(
+              //           side: const BorderSide(width: 0.1),
+              //           borderRadius: BorderRadius.circular(20)),
+              //     )),
               Obx(() => Padding(
                     padding: const EdgeInsets.all(0.0),
                     child: Column(
